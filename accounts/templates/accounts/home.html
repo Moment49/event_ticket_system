@@ -1,0 +1,82 @@
+{% extends 'accounts/base.html'%}
+{% load static %}
+{% block title%}Home {% endblock %}
+
+{% block content%}
+<div class="hero-cta">
+    <div class="hero-header">
+        <h2><b>Unlock</b> Innovation: Secure <b>Your</b> Tech Event Pass <b>Today!!</b></h2>
+        <button>Book Now</button>
+    </div>    
+</div>
+
+<div class="feature-events">
+    <div class="container-fluid">
+        <div class="top-row">
+            <div>
+                <h2>Top Picks Near You</h2>
+            </div>
+            <div>
+                <button><i class="fa-solid fa-filter"></i>Filter</button>
+            </div>
+        </div>
+        <hr/>
+        <div class="bottom-row">
+            <div class="detail-row-1">
+                <img src="{% static 'accounts/images/pexels-bertellifotografia-2608516.jpg'%}"  alt="no-image"/>
+                <div>
+                    <p>Aug 13</p>
+                    <p>Sun <i class="fa-solid fa-circle-dot"></i> 10:00am</p>
+                    <p class="desc">Elements Music and Arts Festival - Sunday
+                        Pocono Raceway</p>
+                </div>   
+            </div>
+            <div class="detail-row-2">
+                <div>
+                    <button>View Details</button>
+                </div>
+                <button>Book Now</button>
+            </div>
+        </div>
+        <div class="bottom-row">
+            <div class="detail-row-1">
+                <img src="{% static 'accounts/images/dev_fest.jpeg'%}"  alt="no-image"/>
+                <div>
+                    <p>Jan 14</p>
+                    <p>Mon <i class="fa-solid fa-circle-dot"></i> 10:00am</p>
+                    <p class="desc">Orange County Fair - Admission
+                        Orange County Fair and Event Center</p>
+                </div>   
+            </div>
+            <div class="detail-row-2">
+                <div>
+                    <button>View Details</button>
+                </div>
+                <button>Book Now</button>
+            </div>
+        </div>
+        <div class="bottom-row">
+            <div class="detail-row-1">
+                <img src="{% static 'accounts/images/pexels-shkrabaanthony-5475779.jpg'%}"  alt="no-image"/>
+                <div>
+                    <p>Feb 25</p>
+                    <p>Sun <i class="fa-solid fa-circle-dot"></i> 09:00am</p>
+                    <p class="desc">Audien (21+ Event)
+                        AYU Dayclub</p>
+                </div>   
+            </div>
+            <div class="detail-row-2">
+                <div>
+                    <button>View Details</button>
+                </div>
+                <button>Book Now</button>
+            </div>
+        </div>
+    </div> 
+    <div class="show-more">
+        <button>Show More</button>
+    </div> 
+</div>
+
+  
+{% endblock%}
