@@ -14,7 +14,7 @@
 }
 
 header{
-    width: 100%;
+    max-width: 100%;
     background: #04092C;
     padding: 8px 0;
 }
@@ -110,7 +110,6 @@ header{
     border-radius: 20px;
     padding: 4px 35px;
     display: inline-block;
-    box-shadow: #04092C;
     width: 100%;
     box-sizing: border-box;
     border: none;
@@ -350,13 +349,160 @@ header{
 
 /* Footer */
 .footer{
-    border: 1px solid red;
     background: #04092C;
     color: white;
-    min-height: 366px;
+    min-height: 60vh;
+    width: 100%;
+    position: relative;
+}
+
+.footer-cta {
+    width: 85%;
+    margin: 0 auto;
+    padding-top: 4rem;
 }
 
 #logo i{
-    font-size: 10rem;
-    border: 1px solid red;
+    font-size: 7rem;
+    color: #2C9CF0;
 }
+
+#logo h3{
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.footer-nav{
+    width: 100%;
+}
+.footer-nav ul{
+    list-style: none;
+    margin-top: 15px;
+}
+.footer-nav ul li{
+    padding-bottom: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.footer-nav ul li:hover{
+    color: #2C9CF0;
+}
+
+.footer-nav-2{
+    width: 100%;
+}
+
+.footer-nav-2 ul{
+    list-style: none;
+    margin-top: 15px;
+}
+.footer-nav-2 ul li{
+    padding-bottom: 1rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+    transition: 0.5s;
+}
+
+.footer-nav-2 ul li i{
+    padding-right: 0.9rem;
+    color: #2C9CF0;
+}
+
+.footer-nav-3{
+    width: 100%;
+}
+.footer-nav-3 ul{
+    list-style: none;
+    margin-top: 19px;
+}
+.footer-nav-3 ul li{
+    padding-bottom: 1rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+.footer .footer-bottom{
+    background-color: #2C9CF0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin: auto;
+    padding: auto;
+    height: 2rem;
+}
+.footer .footer-bottom p{
+    color: white;
+    text-align: center;
+    padding-top: 0.3rem;
+}
+
+
+
+
+/* Body Login*/
+.body-cta{
+    background-color: #04092C;
+    min-height: 40vh;
+    color: white;
+  
+}
+
+.body-cta hr{
+    width: 100%;
+    margin: 0;
+    border-width:1.5px;
+    border-style: solid;
+    border-color: #2C9CF0;
+    opacity: 0.5;
+    margin-top: 1.5rem;
+
+}
+
+.form-cta {
+    border-width: 0.1px;
+    border-style:solid;
+    border-color: #93c7ef;
+    max-width: 520px;   
+    box-shadow: 0.1px 0.2px #2C9CF0;
+    border-radius: 10px;
+    padding: 0 20px;
+}
+
+.login-cta{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 95%;
+    margin: 0 auto;
+
+}
+.login-cta div img{
+   width: 500px;
+   min-height: 420px;
+   object-fit: cover;
+}
+
+
+.asteriskField {
+    display: none;
+}
+
+
+
+/* Media Queries */
+@media only screen and (min-width: 600px) and (max-width: 860px) {
+    .top-header-cta div ul{
+        margin-top: 0;
+    }
+    .top-header-cta div ul li{
+        margin-right: 0.5rem;
+    }
+    .top-header-cta div ul li a{
+        font-size: 0.8rem;
+    }
+    .top-header-cta div h1{
+        font-size: 1.2rem;
+    }
+  }

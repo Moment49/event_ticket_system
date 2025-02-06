@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'events.apps.EventsConfig',
     'tickets.apps.TicketsConfig',
+    'crispy_forms',
+    'crispy_bootstrap5'
    
 ]
 
@@ -129,3 +131,10 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Crispy_Forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# CustomUser
+AUTH_USER_MODEL = 'accounts.CustomUser'

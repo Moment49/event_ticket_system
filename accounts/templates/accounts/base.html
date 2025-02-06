@@ -24,8 +24,8 @@
                                 <li><a href="#">Trending</a></li>
                                 <li><a href="#">Theaters</a></li>
                                 <li><a href="#">Contact</a></li>
-                                <li><a href="#">Sign Up</a></li>
-                                <li><a href="#">Login</a></li>
+                                <li><a href="{% url 'register'%}">Sign Up</a></li>
+                                <li><a href="{% url 'login'%}">Login</a></li>
                             </ul>
                         </div>
                         
@@ -54,23 +54,24 @@
             </div>
         </header>
     {% endblock%}
+   
+    {% block content%}
+   
+    {% endblock%}
+   
 
-    <div class="container-fluid">
-        {% block content%}
-        {% endblock%}
-    </div>
 
     {% block footer%}
         <footer class="footer">
             <div class="container-fluid">
                 <div class="footer-cta">
                     <div class="row align-items-center justify-content-around">
-                        <div class="col-3" id="logo">
+                        <div class="col-lg-3" id="logo">
                             <i class="fa-brands fa-pied-piper"></i>
                             <h3>TechConvene</h3>
                         </div>
-                        <div class="col-3">
-                            <nav>
+                        <div class="col-lg-3">
+                            <nav class="footer-nav">
                                 <ul>
                                     <li>Home</li>
                                     <li>About Us</li>
@@ -80,8 +81,8 @@
                                 </ul>
                             </nav>
                         </div>
-                        <div class="col-3">
-                            <div>
+                        <div class="col-lg-3">
+                            <div class="footer-nav-2">
                                <ul>
                                    <li><i class="fa-regular fa-envelope"></i>Email</li>
                                    <li><i class="fa-solid fa-phone"></i>Phone Number</li>
@@ -91,21 +92,24 @@
                                </ul>
                             </div>
                         </div>
-                        <div class="col-3">
-                           <div>
+                        <div class="col-lg-3">
+                           <div class="footer-nav-3">
                                <ul>
                                    <li>sparessupport@techconvene.in</li>
                                    <li>8884518856</li>
                                    <li>Monday - Sunday</li>
                                    <li>8:00AM - 8:00PM (WAT)</li>
-                                   <li>1717 Harrison St, San Francisco,
-                                       CA 94103, NIG</li>
+                                   <li>1717 Harrison St, San Francisco,CA 94103, NIG</li>
                                </ul>
                             </div>
                         </div>
-                </div>
+                    </div>
                 </div>
             </div>
+            <div class="footer-bottom">
+                <p>© 2025 TechConvene Private Limited</p>
+            </div>
+         
         </footer>
        
     {% endblock%}
