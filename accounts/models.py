@@ -33,7 +33,6 @@ class UserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     ROLES = (
         ('USER', 'User'),
-        ('EVENT-ORGANIZER', 'Event-organizer'),
         ('ADMIN', 'Admin'))
     role = models.CharField(max_length=20, choices=ROLES, default='USER')
     email = models.CharField(max_length=150, unique=True, null=False, blank=False)
@@ -58,4 +57,4 @@ class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile')
 
     def __str__(self):
-        return self.user
+        return self.user.email

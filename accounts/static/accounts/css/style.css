@@ -24,7 +24,11 @@ header{
     justify-content: space-between;
     align-items: center;
 }
-.top-header-cta div h1{
+.top-header-cta div a{
+    text-decoration: none;
+    color: whitesmoke;
+}
+.top-header-cta div a h1{
     font-size: 2rem;
 }
 .top-header-cta div h1 b{
@@ -41,27 +45,43 @@ header{
 .top-header-cta div ul li{
     margin-right: 15px;
     
+    
 }
 .top-header-cta div ul li a{
     color: white;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 0.9rem;
     transition: 0.5s;
     font-weight: 500;
 }
+
 
 .top-header-cta div ul li a:hover{
     color: #2C9CF0;
 }
 .top-header-cta div ul li:nth-child(4) a{
     color: white;
-    margin-left: 30px;
+    margin-left: 35px;
+    /* margin-right: 20px; */
     background: #2C9CF0;
     padding: 4px 23px;
     border-radius: 18px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     transition: 0.5s;
+    border-width: 0.1px;
     
+}
+/* Profile image */
+.top-header-cta div ul li:nth-child(4) img{
+    margin-left: 55px;
+    
+}
+.profile_text{
+    font-size: 0.8rem;
+    margin: auto;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .top-header-cta div ul li:nth-child(4) a:hover{
@@ -69,6 +89,7 @@ header{
     border-color: white;
     border-style:solid;
     border-width: 0.1px;
+    
 }
 
 
@@ -77,12 +98,24 @@ header{
     background: transparent;
     padding: 4px 23px;
     border-radius: 15px;
-    border-color: whitesmoke;
-    border-style: solid;
-    font-size: 0.8rem;
-    border-width: 0.5px;
+    font-size: 0.9rem;
     transition: 0.3s;
+    border : 0.1px solid whitesmoke;
     
+}
+.top-header-cta div ul li:nth-child(6) a{
+    color: white;
+    background: transparent;
+    padding: 4px 23px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    transition: 0.3s;
+    border : 0.1px solid whitesmoke;
+    margin-left: 20px;
+}
+/* Home Logged In */
+.top-header-cta div ul li:nth-child(6) a:hover{
+    border-color: #2C9CF0;   
 }
 .top-header-cta div ul li:nth-child(5) a:hover{
     border-color: #2C9CF0;   
@@ -180,6 +213,7 @@ header{
     min-height: 430px;
     background-size: 100%;
     position: relative;
+   
 }
 
 .hero-cta .hero-header{
@@ -224,10 +258,7 @@ header{
 /* Features */
 .feature-events{
     width: 85%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 90px;
-    margin-bottom: 90px;
+    margin: 70px auto;
 }
 
 .feature-events .top-row{
@@ -325,7 +356,7 @@ header{
 
 .show-more{
     padding-bottom: 50px;
-    position: relative;
+    
 }
 
 .show-more button{
@@ -445,7 +476,7 @@ header{
     background-color: #04092C;
     min-height: 40vh;
     color: white;
-  
+    margin: 0;
 }
 
 .body-cta hr{

@@ -9,13 +9,13 @@
         <div class="header-cta">
             <div class="top-header-cta">
                 <div>
-                    <h1><b>Tech</b>Convene</h1>
+                    <a href="{% url 'home' %}"><h1><b>Tech</b>Convene</h1></a>
                 </div>
                 <div>
                     <ul>
                         <li><a href="#">Trending</a></li>
                         <li><a href="#">Theaters</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Contact Us</a></li>
                         <li><a href="{% url 'register'%}">Sign Up</a></li>
                         <li><a href="{% url 'login'%}">Login</a></li>
                     </ul>
@@ -50,7 +50,7 @@
                             {{ form.email | as_crispy_field }}
                         </div>
                         <div class="mb-3">
-                            {{ form.password1 | as_crispy_field}}
+                            {{ form.password | as_crispy_field}}
                         </div>
                       
                         <div class="mb-3">
@@ -63,5 +63,4 @@
         </div>
         <hr/>
     </div>
-    
 {% endblock%}

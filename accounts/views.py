@@ -2,7 +2,16 @@ from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-
+from accounts.token import account_activation_token
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate, logout
+from accounts.models import UserProfile
 
 
 CustomUser = get_user_model()
@@ -12,29 +21,93 @@ CustomUser = get_user_model()
 def home(request):
     return render(request, 'accounts/home.html')
 
-def login(request):
-    return render(request, 'accounts/login.html')
-
 def activateEmail(request, user, to_email):
-    messages.success(request, f'Dear, {user} Please go to your email <b>{to_email}</b> inbox and click\
-                     on the recieved activation link to complete the registeration process. <b>Note:</b>Check your spam folder')
+    subject = 'Activate your account'
+    message = render_to_string(
+        'accounts/activate_email_account.html',
+        context={
+            'user': user.first_name,
+            'domain': get_current_site(request).domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+            'protocol': 'https' if request.is_secure() else 'http'
+        }
+    )
+
+    email = EmailMessage(subject, message, to=[to_email])
+    token = account_activation_token.make_token(user)
+    print(token)
+    return email
+
+
+def account_activation_sent(request):
+    return render(request, 'accounts/account_activation_sent.html')
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = CustomUser.objects.get(pk=uid)
+    except:
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        
+        messages.success(request, 'Thank you for your email confirmation. Now you can login to your account')
+        return redirect('login')
+    else:
+        messages.error(request, 'Activation link is invalid')
+
+    return redirect('home')
+      
+
 
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)  
         if form.is_valid():
-            print(form)
             user = form.save(commit=False)
+            # Set the user as inactivate until after verification
             user.is_active = False
+            
+            # Save the user
             user.save()
-            print(user)
-            activateEmail(request, user, form.cleaned_data.get('email'))
-            messages.success(request, 'Successfully registered')
-            return redirect('login')
-        else:
-            messages.error(request, "EErrors")
-
-
+            email = activateEmail(request, user, form.cleaned_data.get('email'))
+            
+            if email.send():
+                # send the email and return the user to
+                return redirect("account_activation_sent")
+            else:
+                messages.error(request, f'Problem sending email to {user.email}, check if you typed it correctly.')
     else:
         form = UserRegistrationForm()
     return render(request, 'accounts/register.html', {'form':form})
+
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Login Successful...')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Sorry, Invalid crendentials..')
+    return render(request, 'accounts/login.html')
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'You have been logged out!!!')
+    return redirect('login')
+
+
+@login_required
+def profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    return render(request, 'accounts/profile.html', {"user_profile":user_profile})
+
+
+def user_dashboard(request):
+    ...

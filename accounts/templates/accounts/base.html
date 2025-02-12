@@ -10,57 +10,77 @@
 
   </head>
   <body>
-
+    {% if messages %}
+    <div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show w-100 ms-auto mb-0" role="alert">
+        <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>          
+    {% endfor %}
+    </div>
+    {% endif %}
     {% block header%}
         <header>
             <div class="container-fluid">
                 <div class="header-cta">
                     <div class="top-header-cta">
                         <div>
-                            <h1><b>Tech</b>Convene</h1>
+                            <a href="{% url 'home' %}"><h1><b>Tech</b>Convene</h1></a>
                         </div>
                         <div>
                             <ul>
+                                {% if user.is_authenticated %}
+                                <li><a href="#">Trending</a></li>
+                                <li><a href="#">Booked Events</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li>
+                                    {% if user.profile.profile_picture%}
+                                    <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" width="30" height="30" alt="profile"/>
+                                    {%else%}
+                                    <img src="#" class="rounded-circle" width="30" height="30"/>
+                                    {% endif %}
+                                </li>
+                                <a href="#" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
+                                <li class="mr-3"><a href="{% url 'logout'%}" >Logout</a></li>
+                                {% else %}
                                 <li><a href="#">Trending</a></li>
                                 <li><a href="#">Theaters</a></li>
-                                <li><a href="#">Contact</a></li>
+                                <li><a href="#">Contact Us</a></li>
                                 <li><a href="{% url 'register'%}">Sign Up</a></li>
                                 <li><a href="{% url 'login'%}">Login</a></li>
+                                {% endif %}
                             </ul>
                         </div>
-                        
                     </div>
-                <div class="search-cta">
-                    <div class="container">
-                        <form class="form-row">
-                            <div class="font_event">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                                <input type="text"  placeholder="Search by Event... " aria-label="Event" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="font_venue">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <input type="text"  placeholder="Search by Venue or location..." aria-label="state" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="font_date">
-                                <input type="date"  placeholder="Date" aria-label="Date" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="font_search">
-                                <button type="submit">Search</button>
-                            </div>
-                        </form>
+                    <div class="search-cta">
+                        <div class="container">
+                            <form class="form-row">
+                                <div class="font_event">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <input type="text"  placeholder="Search by Event... " aria-label="Event" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="font_venue">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <input type="text"  placeholder="Search by Venue or location..." aria-label="state" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="font_date">
+                                    <input type="date"  placeholder="Date" aria-label="Date" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="font_search">
+                                    <button type="submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </header>
     {% endblock%}
    
     {% block content%}
-   
     {% endblock%}
    
-
-
     {% block footer%}
         <footer class="footer">
             <div class="container-fluid">

@@ -1,0 +1,38 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title%}Email Notification {% endblock %}
+
+{% block header %}
+<header>
+    <div class="container-fluid">
+        <div class="header-cta">
+            <div class="top-header-cta">
+                <div>
+                    <h1><b>Tech</b>Convene</h1>
+                </div>
+                <div>
+                    <ul>
+                        <li><a href="#">Trending</a></li>
+                        <li><a href="#">Theaters</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="{% url 'register'%}">Sign Up</a></li>
+                        <li><a href="{% url 'login'%}">Login</a></li>
+                    </ul>
+                </div>    
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content%}
+<div class="card w-75 mb-3 mt-3 ms-auto mx-auto bg-primary text-light">
+    <div class="card-body">
+      <h5 class="card-title">Thank You For Registering!</h5>
+      <p>A verification link has been sent to your email. Please check your inbox and follow the instructions to complete your registration.</p>
+    </div>
+  </div>
+
+
+{% endblock %}
