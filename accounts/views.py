@@ -9,9 +9,10 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate, logout
 from accounts.models import UserProfile
+from events.models import Event
 
 
 CustomUser = get_user_model()
@@ -83,6 +84,24 @@ def register(request):
         form = UserRegistrationForm()
     return render(request, 'accounts/register.html', {'form':form})
 
+def is_regular_user(user):
+    if user.role == 'USER':
+        return user
+
+def is_admin(user):
+    if user.role == 'ADMIN':
+        return user
+    
+@user_passes_test(is_admin)
+def admin_dashboard_view(request):
+    return render(request, 'accounts/dashboard/admin_dashboard_view.html')
+
+@user_passes_test(is_regular_user)
+def user_dashboard_view(request):
+    events = Event.objects.all()
+    return render(request, 'accounts/dashboard/user_dashboard_view.html', {"events":events})
+
+
 def login_view(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -91,7 +110,11 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'Login Successful...')
-            return redirect('profile')
+            if user.role == 'ADMIN':
+                print(user.role)
+                return redirect('admin_dashboard_view')
+            if user.role == 'USER':
+                return redirect('user_dashboard_view')
         else:
             messages.error(request, 'Sorry, Invalid crendentials..')
     return render(request, 'accounts/login.html')
@@ -109,5 +132,3 @@ def profile(request):
     return render(request, 'accounts/profile.html', {"user_profile":user_profile})
 
 
-def user_dashboard(request):
-    ...

@@ -1,0 +1,39 @@
+{% extends 'accounts/base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title%}Dashboard {% endblock %}
+
+{% block header %}
+<header>
+    <div class="container-fluid">
+        <div class="header-cta">
+            <div class="top-header-cta">
+                <div>
+                    <a href="{% url 'home' %}"><h1><b>Tech</b>Convene</h1></a>
+                </div>
+                <div>
+                    <ul>
+                        <li><a href="#">Create User</a></li>
+                        <li><a href="#">View Tickets</a></li>
+                        <li class="qr-codes"><a href="#">Create Events</a></li>
+                        <!-- <li class="qr-codes"><a href="#">Disable User</a></li> -->
+                        {% if user.is_authenticated %}
+                        <li>
+                            {% if user.profile.profile_picture%}
+                            <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" width="30" height="30" alt="profile"/>
+                            {%else%}
+                            <img src="#" class="rounded-circle" width="30" height="30"/>
+                            {% endif %}
+                        </li>
+                        <a href="{% url 'profile'%}" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
+                        <li class="mr-3"><a href="{% url 'logout'%}" >Logout</a></li>
+                        {% endif %}
+                    </ul> 
+                </div>             
+            </div>
+            
+</header>
+{% endblock %}
+{% block content%}
+<h1>Admin dashboard view</h1>
+{% endblock %}

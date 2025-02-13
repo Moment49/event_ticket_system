@@ -15,3 +15,8 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='event')
+
+    def __str__(self):
+        return f"{self.name}"
+
+

@@ -41,7 +41,7 @@
                                     <img src="#" class="rounded-circle" width="30" height="30"/>
                                     {% endif %}
                                 </li>
-                                <a href="#" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
+                                <a href="{% url 'profile' %}" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
                                 <li class="mr-3"><a href="{% url 'logout'%}" >Logout</a></li>
                                 {% else %}
                                 <li><a href="#">Trending</a></li>

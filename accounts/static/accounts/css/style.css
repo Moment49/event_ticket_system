@@ -520,6 +520,21 @@ header{
     display: none;
 }
 
+/* Profile */
+.edit_main{
+    border: 1px solid #04092C;
+    width: 400px;
+    margin: 10px auto;
+    text-align: center;
+    background: #04092C;
+    color: white;
+    padding: 10px 0;
+}
+
+.edit_main .profile_detail{
+    padding-top: 15px;
+   
+}
 
 
 /* Media Queries */

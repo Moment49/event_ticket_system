@@ -1,0 +1,51 @@
+{% extends 'accounts/base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title%}Dashboard {% endblock %}
+
+{% block header %}
+<header>
+    <div class="container-fluid">
+        <div class="header-cta">
+            <div class="top-header-cta">
+                <div>
+                    <a href="{% url 'home' %}"><h1><b>Tech</b>Convene</h1></a>
+                </div>
+                <div>
+                    <ul>
+                        <li><a href="#">Booked Events</a></li>
+                        <li><a href="#">Purchased Tickets</a></li>
+                        <li class="qr-codes"><a href="#">Saved Events Qrcodes</a></li>
+                        {% if user.is_authenticated %}
+                        <li>
+                            {% if user.profile.profile_picture%}
+                            <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" width="30" height="30" alt="profile"/>
+                            {%else%}
+                            <img src="#" class="rounded-circle" width="30" height="30"/>
+                            {% endif %}
+                        </li>
+                        <a href="{% url 'profile'%}" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
+                        <li class="mr-3"><a href="{% url 'logout'%}" >Logout</a></li>
+                        {% endif %}
+                    </ul> 
+                </div>             
+            </div>
+            
+</header>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center fs-4 pt-4 pb-4">Event Details</h1>
+<div class="container text-center">
+        <img src="{{ event.featured_photo.url }}"  width="500" alt="...">
+        <div class="event_detail pt-4 pb-4">
+        <h6><b>Title</b>: {{event.name}}</h6>
+        <p><b>Venue</b>: {{event.venue}}</p>
+        <p><b>Description</b>: {{event.description}}</p>
+        <p> <b>Date</b>: {{event.date}}</p>
+        <p> <b>Time</b>: {{event.time}}</p>
+        <p><b>Price</b>: ${{event.price}}</p>
+        <a href="" class="btn btn-primary">Proceed to Payment</a>
+    </div>
+</div>
+{% endblock %}

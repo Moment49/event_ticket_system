@@ -13,9 +13,13 @@
                 </div>
                 <div>
                     <ul>
-                        <li><a href="#">Trending</a></li>
+                        {% if user.role == 'ADMIN'%}
+                        <li><a href="{% url 'admin_dashboard_view' %}">Dashboard</a></li>
+                        {% else %}
+                        <li><a href="{% url 'user_dashboard_view' %}">Dashboard</a></li>
+                        {% endif %}
                         <li><a href="#">Booked Events</a></li>
-                        <li><a href="#">Highlights</a></li>
+                        <li><a href="#">Purchased Tickets</a></li>
                         {% if user.is_authenticated %}
                         <li>
                             {% if user.profile.profile_picture%}
@@ -24,102 +28,34 @@
                             <img src="#" class="rounded-circle" width="30" height="30"/>
                             {% endif %}
                         </li>
-                        <a href="#" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
+                        <a class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
+                        <li class="mr-3"><a href="{% url 'logout'%}" >Logout</a></li>
                         {% endif %}
                     </ul> 
                 </div>             
             </div>
-            <div class="search-cta">
-                <div class="container">
-                    <form class="form-row">
-                        <div class="font_event">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text"  placeholder="Search by Event... " aria-label="Event" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="font_venue">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <input type="text"  placeholder="Search by Venue or location..." aria-label="state" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="font_date">
-                            <input type="date"  placeholder="Date" aria-label="Date" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="font_search">
-                            <button type="submit">Search</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+            
 </header>
 {% endblock %}
 
 {% block content%}
-<div class="feature-events">
-    <div class="container-fluid">
-        <div class="top-row">
-            <div>
-                <h2>Top Picks Near You</h2>
-            </div>
-            <div>
-                <button><i class="fa-solid fa-filter"></i>Filter</button>
-            </div>
+<div class="container">
+    <div class="edit_main">
+        <h1 class="fs-4">Profile details</h1>
+        <div class="profile_img">
+            {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}"  class="rounded-circle" width="150" height="150" alt="no image"/>
+            {% else %}
+            <img  src="{% static 'accounts/images/avatar.jpg' %}" class="rounded-circle" width="150" height="150"/>
+            {% endif %}
         </div>
-        <hr/>
-        <div class="bottom-row">
-            <div class="detail-row-1">
-                <img src="{% static 'accounts/images/pexels-bertellifotografia-2608516.jpg'%}"  alt="no-image"/>
-                <div>
-                    <p>Aug 13</p>
-                    <p>Sun <i class="fa-solid fa-circle-dot"></i> 10:00am</p>
-                    <p class="desc">Elements Music and Arts Festival - Sunday
-                        Pocono Raceway</p>
-                </div>   
-            </div>
-            <div class="detail-row-2">
-                <div>
-                    <button>View Details</button>
-                </div>
-                <button>Book Now</button>
-            </div>
-        </div>
-        <div class="bottom-row">
-            <div class="detail-row-1">
-                <img src="{% static 'accounts/images/dev_fest.jpeg'%}"  alt="no-image"/>
-                <div>
-                    <p>Jan 14</p>
-                    <p>Mon <i class="fa-solid fa-circle-dot"></i> 10:00am</p>
-                    <p class="desc">Orange County Fair - Admission
-                        Orange County Fair and Event Center</p>
-                </div>   
-            </div>
-            <div class="detail-row-2">
-                <div>
-                    <button>View Details</button>
-                </div>
-                <button>Book Now</button>
-            </div>
-        </div>
-        <div class="bottom-row">
-            <div class="detail-row-1">
-                <img src="{% static 'accounts/images/pexels-shkrabaanthony-5475779.jpg'%}"  alt="no-image"/>
-                <div>
-                    <p>Feb 25</p>
-                    <p>Sun <i class="fa-solid fa-circle-dot"></i> 09:00am</p>
-                    <p class="desc">Audien (21+ Event)
-                        AYU Dayclub</p>
-                </div>   
-            </div>
-            <div class="detail-row-2">
-                <div>
-                    <button>View Details</button>
-                </div>
-                <button>Book Now</button>
-            </div>
-        </div>
-    </div> 
-    <div class="show-more">
-        <button>Show More</button>
-    </div> 
+        <div class="profile_detail">
+            <p><b>Username</b>: {{user.username}}</p>
+            <p><b>Email</b>: {{user.email}}</p>
+            <p><b>Age</b>: {{user_profile.age}}years</p>
+            <p><b>Date of Birth</b>: {{user_profile.date_of_birth}}</p>
+            <p><b>Role</b>: {{user.role}}</p>
+        </div> 
+    </div>  
 </div>
 {% endblock%}
