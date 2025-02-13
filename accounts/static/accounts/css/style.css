@@ -127,6 +127,7 @@ header{
     padding: 12px 0;
     margin: 20px 0;
     border-radius: 12px;
+  
 }
 
 .search-cta .container .form-row{
@@ -538,7 +539,7 @@ header{
 
 
 /* Media Queries */
-@media only screen and (min-width: 600px) and (max-width: 860px) {
+@media only screen and (min-width: 576px){
     .top-header-cta div ul{
         margin-top: 0;
     }
@@ -551,4 +552,5 @@ header{
     .top-header-cta div h1{
         font-size: 1.2rem;
     }
+ 
   }

@@ -17,7 +17,7 @@ class Payment(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='payment')
 
     def __str__(self):
-        return f"{self.status}"
+        return f"{self.amount}"
 
 
 class Ticket(models.Model):
