@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, ProfileForm, UserForm
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from accounts.token import account_activation_token
@@ -36,8 +36,6 @@ def activateEmail(request, user, to_email):
     )
 
     email = EmailMessage(subject, message, to=[to_email])
-    token = account_activation_token.make_token(user)
-    print(token)
     return email
 
 
@@ -69,10 +67,10 @@ def register(request):
         if form.is_valid():
             user = form.save(commit=False)
             # Set the user as inactivate until after verification
-            user.is_active = False
-            
+            user.is_active = True
             # Save the user
             user.save()
+           
             email = activateEmail(request, user, form.cleaned_data.get('email'))
             
             if email.send():
@@ -130,5 +128,40 @@ def logout_view(request):
 def profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
     return render(request, 'accounts/profile.html', {"user_profile":user_profile})
+
+def edit_profile(request, user):
+    user = CustomUser.objects.get(username=user)
+    user_profile = UserProfile.objects.get(user=user)
+   
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        user_form = UserForm(request.POST)
+        print(user_form)
+        if form.is_valid() and user_form.is_valid():
+            date_of_birth = form.cleaned_data.get('date_of_birth')
+            profile_picture = form.cleaned_data.get('profile_picture')
+            first_name = user_form.cleaned_data.get('first_name')
+            last_name = user_form.cleaned_data.get('last_name')
+            username = user_form.cleaned_data.get('username')
+
+            user_profile.date_of_birth = date_of_birth
+            user_profile.profile_picture = profile_picture
+            user.first_name = first_name
+            user.last_name = last_name
+            user.username = username
+
+            user.save()
+            user_profile.save()
+            return redirect('profile')
+    else:
+        form = ProfileForm({
+            "date_of_birth":user_profile.date_of_birth,
+            "profile_picture":user_profile.profile_picture})
+        user_form = UserForm({
+            "first_name":user.first_name,
+            "last_name":user.last_name,
+            "username":user.username,
+        })
+    return render(request, 'accounts/edit_profile.html', {"form":form, "user_form":user_form})
 
 

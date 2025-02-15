@@ -1,7 +1,7 @@
 {% extends 'accounts/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title%}Payment success {% endblock %}
+{% block title%}Booked events{% endblock %}
 
 {% block header %}
 <header>
@@ -13,9 +13,9 @@
                 </div>
                 <div>
                     <ul>
-                        <li><a href="#">Booked Events</a></li>
-                        <li><a href="#">Purchased Tickets</a></li>
-                        <li class="qr-codes"><a href="#">Saved Events Qrcodes</a></li>
+                        <li><a href="{% url 'booked_event' %}">Booked Events</a></li>
+                        <li><a href="{% url 'purchased_tickets' %}">Purchased Tickets</a></li>
+                        <li class="qr-codes"><a href="{% url 'saved_event_qrcodes' %}">Saved Events Qrcodes</a></li>
                         {% if user.is_authenticated %}
                         <li>
                             {% if user.profile.profile_picture%}
@@ -33,13 +33,28 @@
 </header>
 {% endblock %}
 
-{% block content%}
-<div class="card w-75 mb-4 mt-4 ms-auto mx-auto bg-primary text-light">
-    <div class="card-body">
-      <h5 class="card-title">Thank You For Choosing TechConvene</h5>
-      <p>Your Payment was successful. Check your email for the event ticket...</p>
-    </div>
-  </div>
-
-
+{% block content %}
+<div class="container pt-4">
+    <h1>Total Number of Booked Events: <b class="text-primary">{{booked_event_count}}</b></h1>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Event_id</th>
+            <th scope="col">Event_name</th>
+            <th scope="col">Event_venue</th>
+            <th scope="col">Event_price</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for user_ticket_event in user_tickets_events %}
+          <tr>
+            <th scope="row">{{user_ticket_event.event.id}}</th>
+            <td>{{user_ticket_event.event.name}}</td>
+            <td>{{user_ticket_event.event.venue}}</td>
+            <td>{{user_ticket_event.event.price}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
 {% endblock %}

@@ -31,9 +31,13 @@
                         <div>
                             <ul>
                                 {% if user.is_authenticated %}
-                                <li><a href="#">Trending</a></li>
-                                <li><a href="#">Booked Events</a></li>
-                                <li><a href="#">Contact Us</a></li>
+                                {% if user.role == 'ADMIN'%}
+                                    <li><a href="{% url 'admin_dashboard_view' %}">Dashboard</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'user_dashboard_view' %}">Dashboard</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'booked_event' %}">Booked Events</a></li>
+                                <li><a href="{% url 'purchased_tickets' %}">Purchased Tickets</a></li>
                                 <li>
                                     {% if user.profile.profile_picture%}
                                     <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" width="30" height="30" alt="profile"/>

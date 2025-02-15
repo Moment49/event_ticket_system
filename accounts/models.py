@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+import datetime
 
 # Create your models here.
 
@@ -58,4 +59,16 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.email
+    
+    def save(self, *args, **kwargs):
+        if self.date_of_birth == None:
+            print("No issues")
+        else:
+            date_of_birth = self.date_of_birth
+            x = datetime.datetime.now()
+            current_year = x.year
+            birth_year = date_of_birth.year
+            age_year = current_year - birth_year
+            self.age = age_year
+        super(UserProfile, self).save(*args, **kwargs)
     

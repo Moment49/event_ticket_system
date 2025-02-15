@@ -1,7 +1,7 @@
 {% extends 'accounts/base.html'%}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title%}Dashboard {% endblock %}
+{% block title%}Event Details {% endblock %}
 
 {% block header %}
 <header>
@@ -13,9 +13,9 @@
                 </div>
                 <div>
                     <ul>
-                        <li><a href="#">Booked Events</a></li>
-                        <li><a href="#">Purchased Tickets</a></li>
-                        <li class="qr-codes"><a href="#">Saved Events Qrcodes</a></li>
+                        <li><a href="{% url 'booked_event'%}">Booked Events</a></li>
+                        <li><a href="{% url 'purchased_tickets'%}">Purchased Tickets</a></li>
+                        <li class="qr-codes"><a href="{% url 'saved_event_qrcodes' %}">Saved Events Qrcodes</a></li>
                         {% if user.is_authenticated %}
                         <li>
                             {% if user.profile.profile_picture%}
@@ -29,8 +29,7 @@
                         {% endif %}
                     </ul> 
                 </div>             
-            </div>
-            
+            </div>    
 </header>
 {% endblock %}
 
