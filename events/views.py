@@ -8,6 +8,8 @@ import uuid
 from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
+
+
 # Create your views here.
 
 
@@ -26,6 +28,8 @@ def event_detail_view(request, pk):
             messages.error(request, "Sorry you have registered for the event already")
     # The domain_host address
     host = request.get_host()
+    user = CustomUser.objects.get(email=request.user)
+    user_id = user.pk
 
     # The paypal data to be filled dynamically to process the information
     paypal_checkout = {
@@ -36,7 +40,8 @@ def event_detail_view(request, pk):
         'currency_code': 'USD',
         'notify_url':f"https://{host}{reverse('paypal-ipn')}",
         'return_url':f"http://{host}{reverse('payment_sucesss')}",
-        'cancel_url':f"http://{host}{reverse('event_detail', kwargs={'pk':event.event_id})}"
+        'cancel_url':f"http://{host}{reverse('event_detail', kwargs={'pk':event.event_id})}",
+        'custom':user_id
 
     }
     form = PayPalPaymentsForm(initial=paypal_checkout)
@@ -44,6 +49,7 @@ def event_detail_view(request, pk):
     return render(request, 'events/event_detail.html',  {
                 "event":event,
                 'form':form})
+
 
 
 @login_required

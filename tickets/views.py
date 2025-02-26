@@ -8,10 +8,14 @@ from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
-# from paypal.standard.forms import PayPalPaymentsForm
 import uuid
 from django.urls import reverse
 from django.conf import settings
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
 
 
 CustomUser = get_user_model()
