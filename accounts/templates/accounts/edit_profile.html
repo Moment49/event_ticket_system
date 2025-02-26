@@ -5,44 +5,42 @@
 
 
 {% block header %}
-<header>
-    <div class="container-fluid">
-        <div class="header-cta">
-            <div class="top-header-cta">
-                <div>
-                    <a href="{% url 'home' %}"><h1><b>Tech</b>Convene</h1></a>
-                </div>
-                <div>
-                    <ul>
-                        {% if user.role == 'ADMIN'%}
-                        <li><a href="{% url 'admin_dashboard_view' %}">Dashboard</a></li>
-                        {% else %}
-                        <li><a href="{% url 'user_dashboard_view' %}">Dashboard</a></li>
-                        {% endif %}
-                        <li><a href="{% url 'booked_event' %}">Booked Events</a></li>
-                        <li><a href="{% url 'purchased_tickets'%}">Purchased Tickets</a></li>
-                        {% if user.is_authenticated %}
-                        <li>
-                            {% if user.profile.profile_picture%}
-                            <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" width="30" height="30" alt="profile"/>
-                            {%else%}
-                            <img src="#" class="rounded-circle" width="30" height="30"/>
-                            {% endif %}
-                        </li>
-                        <a class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
-                        <li class="mr-3"><a href="{% url 'logout'%}" >Logout</a></li>
-                        {% endif %}
-                    </ul> 
-                </div>             
-            </div>
-            
-</header>
+<div class="header-bg">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'home' %}"><b  id='logo' >Tech</b>Convene</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto my-auto mb-1 mb-lg-0">
+                {% if user.role == 'ADMIN'%}
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'admin_dashboard_view' %}">Dashboard</a></li>
+                {% else %}
+                    <li class="nav-item"><a  class="nav-link" href="{% url 'user_dashboard_view' %}">Dashboard</a></li>
+                {% endif %}
+                <li class="nav-item"><a class="nav-link"  href="{% url 'booked_event' %}">Booked Events</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'purchased_tickets' %}">Purchased Tickets</a></li>
+                <li class="nav-item">
+                    {% if user.profile.profile_picture%}
+                    <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" id="prof_img" width="30" height="30" alt="profile"/>
+                    {%else%}
+                    <img src="#" class="rounded-circle" width="30" height="30"/>
+                    {% endif %}
+                </li>
+                <a href="{% url 'profile' %}" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}" >Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+</div>
 {% endblock %}
 
 {% block content%}
 <div class="container">
     <div class="edit_main">
-        <h1 class="fs-4 text-primary pt-3 pb-4">Edit Profile Details</h1>
+        <h1 class="fs-4 text-light text-center pt-3 pb-4">Edit Profile Details</h1>
        <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">

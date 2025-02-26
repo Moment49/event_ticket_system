@@ -4,38 +4,47 @@
 
 
 {% block header %}
-<header>
-    <div class="container-fluid">
-        <div class="header-cta">
-            <div class="top-header-cta">
-                <div>
-                    <a href="{% url 'home' %}"><h1><b>Tech</b>Convene</h1></a>
-                </div>
-                <div>
-                    <ul>
-                        <li><a href="#">Trending</a></li>
-                        <li><a href="#">Theaters</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="{% url 'register'%}">Sign Up</a></li>
-                        <li><a href="{% url 'login'%}">Login</a></li>
-                    </ul>
-                </div>    
-            </div>
+<div class="header-bg">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'home' %}"><b  id='logo_home' >Tech</b>Convene</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto my-auto mb-1 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="#">Trending</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Theaters</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"  id='signup' href="{% url 'register' %}">Sign Up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id='login'  href="{% url 'login'%}" aria-disabled="true">Login</a>
+            </li>
+            </ul>
+          </div>
         </div>
-    </div>
-</header>
+      </nav>
+</div>
 {% endblock %}
 
 {% block content%}
     <div class="body-cta">
-        <div class="container">
-            <div class="login-cta row">
-                <div class="col">
-                    <img src="{% static 'accounts/images/login2-remove.png'%}" width="400px"/>
+        <div class="container-fluid">
+            <div class="row justify-content-center align-items-center login-cta">
+                <div class="col-lg-6 col-md-5 text-center">
+                    <img src="{% static 'accounts/images/login2-remove.png'%}" class="img-fluid login-img"/>
                 </div>
-                <div class="form-cta col">
+                <div class="col-lg-5 col-md-7 form-cta">
                     <div class="text-center">
-                        <h2 class="fs-5 mt-4 fw-bold">Sign In</h2>
+                        <h2 class="fs-4 mt-4 fw-bold" id="sign_overflow">Sign In</h2>
                         <p  class="text-secondary mb-4">Enter your credentials to access your account</p>
                     </div>
                     <form method="post">
@@ -51,7 +60,7 @@
                         <div class="mb-3">
                             <p class="text-end"><a href="#" class="text-decoration-none">Forgot Password?</a></p>
                             <button type="submit" class="btn btn-primary mb-3 w-100">Sign In</button>
-                            <p class="text-center p-2">Don't have an account? <a href="#" class="text-decoration-none">Sign Up</a></p>
+                            <p class="text-center p-2">Don't have an account? <a href="{% url 'register' %}" class="text-decoration-none">Sign Up</a></p>
                         </div>
                     </form>
                 </div>

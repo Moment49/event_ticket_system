@@ -89,11 +89,13 @@ def is_regular_user(user):
 def is_admin(user):
     if user.role == 'ADMIN':
         return user
-    
+
+@login_required    
 @user_passes_test(is_admin)
 def admin_dashboard_view(request):
     return render(request, 'accounts/dashboard/admin_dashboard_view.html')
 
+@login_required
 @user_passes_test(is_regular_user)
 def user_dashboard_view(request):
     events = Event.objects.all()
@@ -118,6 +120,7 @@ def login_view(request):
     return render(request, 'accounts/login.html')
 
 
+@login_required
 def logout_view(request):
     logout(request)
     messages.success(request, 'You have been logged out!!!')
@@ -130,7 +133,8 @@ def profile(request):
     return render(request, 'accounts/profile.html', {"user_profile":user_profile})
 
 def edit_profile(request, user):
-    user = CustomUser.objects.get(username=user)
+    user = CustomUser.objects.get(first_name=user)
+    print(user)
     user_profile = UserProfile.objects.get(user=user)
    
     if request.method == 'POST':

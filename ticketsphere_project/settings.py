@@ -31,7 +31,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '034d-105-113-69-4.ngrok-free.app']
+
+CSRF_TRUSTED_ORIGINS = ["https://034d-105-113-69-4.ngrok-free.app"]
 
 
 # Application definition
@@ -47,7 +49,8 @@ INSTALLED_APPS = [
     'events.apps.EventsConfig',
     'tickets.apps.TicketsConfig',
     'crispy_forms',
-    'crispy_bootstrap5'
+    'crispy_bootstrap5',
+    'paypal.standard.ipn'
    
 ]
 
@@ -161,3 +164,8 @@ LOGIN_URL = '/auth/login/'
 MEDIA_URL = 'media/'
 
 MEDIA_ROOT =  BASE_DIR / 'media'
+
+# PAYPAL SETTINGS
+PAYPAL_RECEIVER_EMAIL = 'business@techconvene.com'
+
+PAYPAL_TEST = True

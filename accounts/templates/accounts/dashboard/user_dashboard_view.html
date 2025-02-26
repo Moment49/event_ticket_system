@@ -4,42 +4,64 @@
 {% block title%}Dashboard {% endblock %}
 
 {% block header %}
-<header>
-    <div class="container-fluid">
-        <div class="header-cta">
-            <div class="top-header-cta">
-                <div>
-                    <a href="{% url 'home' %}"><h1><b>Tech</b>Convene</h1></a>
-                </div>
-                <div>
-                    <ul>
-                        <li><a href="{% url 'booked_event'%}">Booked Events</a></li>
-                        <li><a href="{% url 'purchased_tickets' %}">Purchased Tickets</a></li>
-                        <li class="qr-codes"><a href="{% url 'saved_event_qrcodes' %}">Saved Events Qrcodes</a></li>
-                        {% if user.is_authenticated %}
-                        <li>
-                            {% if user.profile.profile_picture%}
-                            <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" width="30" height="30" alt="profile"/>
-                            {%else%}
-                            <img src="#" class="rounded-circle" width="30" height="30"/>
-                            {% endif %}
-                        </li>
-                        <a href="{% url 'profile'%}" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
-                        <li class="mr-3"><a href="{% url 'logout'%}" >Logout</a></li>
+
+<div class="header-bg">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'home' %}"><b  id='logo_home' >Tech</b>Convene</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto my-auto mb-1 mb-lg-0">
+                {% if user.is_authenticated %}
+                    {% if user.role == 'ADMIN'%}
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'admin_dashboard_view' %}">Dashboard</a></li>
+                    {% else %}
+                        <li class="nav-item"><a  class="nav-link active" href="{% url 'user_dashboard_view' %}">Dashboard</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link"  href="{% url 'booked_event' %}">Booked Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'saved_event_qrcodes' %}">Saved Qrcodes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'purchased_tickets' %}">Purchased Tickets</a></li>
+                    <li class="nav-item">
+                        {% if user.profile.profile_picture%}
+                        <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" id="prof_img" width="30" height="30" alt="profile"/>
+                        {%else%}
+                        <img src="#" class="rounded-circle" width="30" height="30"/>
                         {% endif %}
-                    </ul> 
-                </div>             
-            </div>
-            
-</header>
+                    </li>
+                    <a href="{% url 'profile' %}" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}" >Logout</a></li>
+                {% else %}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Trending</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Theaters</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"  id='signup' href="{% url 'register' %}">Sign Up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id='login'  href="{% url 'login'%}" aria-disabled="true">Login</a>
+            </li>
+            {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+</div>
 {% endblock %}
 
 {% block content%}
     <h1 class="text-center fs-4 pt-4 pb-4">Current Tech Events</h1>
     <div class="container mt-4 mb-4">
-        <div class="row">
+        <div class="row justify-content-center align-items-center gy-4" >
             {% for event in events %}
-            <div class="col">
+            <div class="col-sm-12 col-md-6 col-lg-4" id="dashboard_event">
                 <div class="card" style="width: 18rem;">
                     <img src="{{ event.featured_photo.url }}" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -48,11 +70,16 @@
                     <p class="card-text"> <b>Date</b>: {{event.date}}</p>
                     <p class="card-text"> <b>Time</b>: {{event.time}}</p>
                     <p class="card-text"><b>Price</b>: ${{event.price}}</p>
-                    <a href="{% url 'event_detail' event.id %}" class="btn btn-primary">Book Now</a>
+                    <a href="{% url 'event_detail' pk=event.event_id %}" class="btn btn-primary">View details</a>
                     </div>
                 </div>
             </div>
             {% endfor%} 
         </div>
+    </div>
+
+   <h1 class="text-center fs-4 pt-4 pb-4"> <marquee behavior="" direction="">Recommended Events</marquee></h1>
+    <div class="container mt-4 mb-4">
+        
     </div>
 {% endblock %}

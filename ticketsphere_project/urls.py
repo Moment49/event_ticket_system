@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('', include('events.urls')),
     path('', include('tickets.urls')),
+    path('paypal/', include('paypal.standard.ipn.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
