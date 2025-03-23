@@ -39,8 +39,8 @@
 
 {% block content %}
 <div class="container pt-4">
-    <h1>Total Number of Booked Events: <b class="text-primary">20</b></h1>
-    <!-- <table class="table table-striped">
+    <h1>Total Number of Booked Events: <b class="text-primary">{{booked_event}}</b></h1>
+    <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Event_id</th>
@@ -52,13 +52,13 @@
         <tbody>
             {% for user_ticket_event in user_tickets_events %}
           <tr>
-            <th scope="row">{{user_ticket_event.event.id}}</th>
+            <th scope="row">{{user_ticket_event.event.event_id}}</th>
             <td>{{user_ticket_event.event.name}}</td>
             <td>{{user_ticket_event.event.venue}}</td>
             <td>{{user_ticket_event.event.price}}</td>
           </tr>
           {% endfor %}
         </tbody>
-      </table> -->
+      </table>
 </div>
 {% endblock %}

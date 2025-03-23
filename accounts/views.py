@@ -17,7 +17,6 @@ from events.models import Event
 
 CustomUser = get_user_model()
 
-
 # Create your views here.
 def home(request):
     return render(request, 'accounts/home.html')
@@ -93,7 +92,8 @@ def is_admin(user):
 @login_required    
 @user_passes_test(is_admin)
 def admin_dashboard_view(request):
-    return render(request, 'accounts/dashboard/admin_dashboard_view.html')
+    users = CustomUser.objects.all()
+    return render(request, 'accounts/dashboard/admin_dashboard_view.html', {"users":users})
 
 @login_required
 @user_passes_test(is_regular_user)

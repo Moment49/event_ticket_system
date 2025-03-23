@@ -7,7 +7,7 @@
 <div class="header-bg">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-          <a class="navbar-brand" href="{% url 'home' %}"><b  id='logo' >Tech</b>Convene</a>
+          <a class="navbar-brand" href="{% url 'home' %}"><b id='logo'>Tech</b>Convene</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -39,7 +39,23 @@
 
 {% block content %}
 <div class="container pt-4">
-    <h1 class="text-primary">Your Purchased Tickets</h1>
-    
+    <h1 class="text-primary">Total Number of Purchased Tickets: <b class="text-primary">{{tickets_count}}</b></h1>
+    <table class="table table-striped">
+        <thead>
+          <tr> 
+            <th scope="col">Event_name</th>
+            <th scope="col">Ticket</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+          <tr>
+            <td>{{ticket.event.name}}</td>
+            <td><a class="btn btn-primary " href="{% url 'ticket_pdf' ticket_id=ticket.ticket_id %}">download</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
 </div>
 {%endblock%}

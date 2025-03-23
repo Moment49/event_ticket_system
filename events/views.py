@@ -22,10 +22,7 @@ def event_detail_view(request, pk):
     price = event.price
     # Check if the user has purchased the ticket for the event
     ticket_user = Ticket.objects.filter(user__email=request.user)
-    for ticket in ticket_user:
-        if event == ticket.event:
-            print("User have registered for the event already")
-            messages.error(request, "Sorry you have registered for the event already")
+
     # The domain_host address
     host = request.get_host()
     user = CustomUser.objects.get(email=request.user)
@@ -48,9 +45,7 @@ def event_detail_view(request, pk):
 
     return render(request, 'events/event_detail.html',  {
                 "event":event,
-                'form':form})
-
-
+                'form':form, "ticket":ticket_user})
 
 @login_required
 def payment_success(request):
@@ -62,13 +57,14 @@ def saved_event_qrcodes(request):
 
 @login_required
 def booked_event(request):
-    # user = CustomUser.objects.get(email=request.user)
-    # user_tickets_events = Ticket.objects.select_related('event').filter(user=user)
+    user = CustomUser.objects.get(email=request.user)
+    user_tickets_events = Ticket.objects.select_related('event').filter(user=user)
+    print(user_tickets_events)
     
-    # # Get the total number of events based on the tickets purchased
-    # booked_event_count = user_tickets_events.count()
+    # Get the total number of events based on the tickets purchased
+    booked_event_count = user_tickets_events.count()
    
-    return render(request, 'events/booked_events.html')
+    return render(request, 'events/booked_events.html', {"booked_event":booked_event_count, "user_tickets_events":user_tickets_events})
 
 
     

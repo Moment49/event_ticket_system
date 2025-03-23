@@ -47,6 +47,12 @@ class CustomUser(AbstractUser):
 
     objects = UserManager()
 
+    class Meta:
+        permissions = (("can_add_user", "Can add user"),
+            ("can_update_user", "Can update user"),
+            ("can_delete_user", "Can delete user"),
+            )
+
     def __str__(self):
         return self.email
 

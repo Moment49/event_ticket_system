@@ -39,6 +39,22 @@
 
 {% block content%}
 <div class="container">
-    <h1>Qrcodes</h1>
+    <h1>List of Events</h1>
+    <div>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <select>
+              <option>Tech for AI</option>
+              <option>Tech Guru</option>
+              <option>Good Tech</option>
+            </select>
+        </div>
+      
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary mt-2 mb-3">Generate Qr code</button>
+        </div>
+    </form>
+    </div>
 </div>
 {% endblock%}

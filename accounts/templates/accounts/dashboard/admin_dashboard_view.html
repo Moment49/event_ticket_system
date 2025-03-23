@@ -4,36 +4,89 @@
 {% block title%}Dashboard {% endblock %}
 
 {% block header %}
-<header>
-    <div class="container-fluid">
-        <div class="header-cta">
-            <div class="top-header-cta">
-                <div>
-                    <a href="{% url 'home' %}"><h1><b>Tech</b>Convene</h1></a>
-                </div>
-                <div>
-                    <ul>
-                        <li><a href="#">Create User</a></li>
-                        <li><a href="#">View Tickets</a></li>
-                        <li class="qr-codes"><a href="#">Create Events</a></li>
-                        <!-- <li class="qr-codes"><a href="#">Disable User</a></li> -->
-                        {% if user.is_authenticated %}
-                        <li>
-                            {% if user.profile.profile_picture%}
-                            <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" width="30" height="30" alt="profile"/>
-                            {%else%}
-                            <img src="#" class="rounded-circle" width="30" height="30"/>
-                            {% endif %}
-                        </li>
-                        <a href="{% url 'profile'%}" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
-                        <li class="mr-3"><a href="{% url 'logout'%}" >Logout</a></li>
+
+<div class="header-bg">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'home' %}"><b  id='logo_home' >Tech</b>Convene</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto my-auto mb-1 mb-lg-0">
+                {% if user.is_authenticated %}
+                    {% if user.role == 'ADMIN'%}
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'admin_dashboard_view' %}">Dashboard</a></li>
+                    {% else %}
+                        <li class="nav-item"><a  class="nav-link active" href="{% url 'user_dashboard_view' %}">Dashboard</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="#">Create Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">View Tickets</a></li>
+                    <li class="nav-item">
+                        {% if user.profile.profile_picture%}
+                        <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" id="prof_img" width="30" height="30" alt="profile"/>
+                        {%else%}
+                        <img src="#" class="rounded-circle" width="30" height="30"/>
                         {% endif %}
-                    </ul> 
-                </div>             
-            </div>
-            
-</header>
+                    </li>
+                    <a href="{% url 'profile' %}" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}" >Logout</a></li>
+                {% else %}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Trending</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Theaters</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"  id='signup' href="{% url 'register' %}">Sign Up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id='login'  href="{% url 'login'%}" aria-disabled="true">Login</a>
+            </li>
+            {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+</div>
 {% endblock %}
 {% block content%}
-<h1>Admin dashboard view</h1>
+<div class="container pt-4">
+    <div>
+        <h2>Create a User</h2>
+        <form>
+            <input type="text" name="first_name" placeholder="First name"/><br>
+            <input type="text" name="last_name" placeholder="Last name"/><br/>
+            <input type="text" name="username" placeholder="username"/><br/>
+            <input type="password" placeholder="Password"><br/>
+            <button>Add user</button>
+        </form>
+    </div>
+    <h1 class="text-primary">List of Users: <b class="text-primary">{{users.count}}</b></h1>
+    <table class="table table-striped">
+        <thead>
+          <tr> 
+            <th scope="col">id</th>
+            <th scope="col">First_name</th>
+            <th scope="col">Last_name</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+          <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.email}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+</div>
 {% endblock %}
