@@ -4,43 +4,61 @@
 
 
 {% block header %}
-
-<div class="header-bg">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-          <a class="navbar-brand" href="{% url 'home' %}"><b  id='logo' >Tech</b>Convene</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto my-auto mb-1 mb-lg-0">
-                {% if user.role == 'ADMIN'%}
-                    <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'admin_dashboard_view' %}">Dashboard</a></li>
-                {% else %}
-                    <li class="nav-item"><a  class="nav-link" href="{% url 'user_dashboard_view' %}">Dashboard</a></li>
-                {% endif %}
-                <li class="nav-item"><a class="nav-link"  href="{% url 'booked_event' %}">Booked Events</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'purchased_tickets' %}">Purchased Tickets</a></li>
-                <li class="nav-item">
-                    {% if user.profile.profile_picture%}
-                    <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" id="prof_img" width="30" height="30" alt="profile"/>
-                    {%else%}
-                    <img src="#" class="rounded-circle" width="30" height="30"/>
-                    {% endif %}
-                </li>
-                <a href="{% url 'profile' %}" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}" >Logout</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-</div>
 {% endblock %}
 
 {% block content%}
-<div class="container">
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar" class="text-light collapsed d-flex flex-column">
+      <button class="w-100 mb-3 mt-3" id="toggleSidebar">☰</button>
+      <nav class="nav flex-column">
+        <a href="#" class="nav-link active text-light">
+          <i class="bi bi-house"></i>
+          <span class="menu-text">Dashboard</span>
+        </a>
+        <a href="#" class="nav-link text-light">
+          <i class="bi bi-ticket"></i>
+          <span class="menu-text">Tickets</span>
+        </a>
+        <a href="#" class="nav-link text-light">
+          <i class="bi bi-calendar3"></i>
+          <span class="menu-text">Events</span>
+
+        <a href="#" class="nav-link text-light">
+         <i class="bi bi-people-fill"></i>
+          <span class="menu-text">Meet others</span>
+
+        <a href="#" class="nav-link text-light">
+          <i class="bi bi-envelope"></i>
+          <span class="menu-text">Notifications</span>
+        </a>
+         <a href="#" class="nav-link text-light">
+         <i class="bi bi-chat-dots"></i>
+          <span class="menu-text">Chat support</span>
+        </a>
+        <div>
+            <a href="{% url 'profile' %}" class="nav-link text-light">
+         <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" id="prof_img" width="30" height="30" alt="profile"/>
+          <span class="menu-text">Profile</span>
+        </a> 
+         <a href="{% url 'logout' %}" class="nav-link text-light">
+         <i class="bi bi-gear"></i>
+          <span class="menu-text">Settings</span>
+        </a>
+         <a href="{% url 'logout' %}" class="nav-link text-light">
+         <i class="bi bi-box-arrow-left"></i>
+          <span class="menu-text">Logout</span>
+        </a>
+        </div>
+        
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content" class="bg-light p-3">
+    <div class="container">
+    <h1 class="fs-4 text-center pt-3" id="profile_heading">Profile Settings</h1>
     <div class="edit_main text-center">
-        <h1 class="fs-4 text-center" id="profile_heading">Profile details</h1>
         <div class="profile_img">
             {% if user.profile.profile_picture %}
             <img src="{{ user.profile.profile_picture.url }}"  class="rounded-circle" width="150" height="150" alt="no image"/>
@@ -59,4 +77,11 @@
     </div>  
 
 </div>
+    </div>
+    </div>
+  </div>
 {% endblock%}
+
+
+{% block footer%}
+{% endblock %}

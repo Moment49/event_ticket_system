@@ -2,14 +2,78 @@
 {% load static %}
 {% block title%}Home {% endblock %}
 
+
+
+{% block header%}
+<div class="header-bg">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'home' %}"><b id='logo_home'>Tech</b>Convene</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto my-auto mb-1 mb-lg-0">
+                {% if user.is_authenticated %}
+                    {% if user.role == 'ADMIN'%}
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'admin_dashboard_view' %}">Dashboard</a></li>
+                    {% else %}
+                        <li class="nav-item"><a  class="nav-link" href="{% url 'user_dashboard_view' %}">Dashboard</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link"  href="{% url 'booked_event' %}">Booked Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'purchased_tickets' %}">Purchased Tickets</a></li>
+                    <li class="nav-item">
+                        {% if user.profile.profile_picture%}
+                        <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" id="prof_img" width="30" height="30" alt="profile"/>
+                        {%else%}
+                        <img src="#" class="rounded-circle" width="30" height="30"/>
+                        {% endif %}
+                    </li>
+                    <a href="{% url 'profile' %}"  class="profile_text text-decoration-none text-light"><span >{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></span></a>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}" >Logout</a></li>
+                {% else %}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#trending">Trending</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#contact_us">Contact Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"  id='signup' href="{% url 'register' %}">Sign Up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id='login'  href="{% url 'login'%}" aria-disabled="true">Login</a>
+            </li>
+            {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="bg-light container mt-4" id="search-cta-cta">
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search by Event... " aria-label="Search">
+            <input class="form-control me-2" type="text"  placeholder="Search by Venue or location..." aria-label="Search">
+            <input class="form-control me-2" type="date"  placeholder="Search by Venue or location..." aria-label="Search">
+            
+            <button class="btn btn-outline-primary" type="submit" id="search">Search</button>
+        </form>
+    </div>
+</div>
+{% endblock%}
+
 {% block content%}
 <div class="container-fluid">
     <section class="hero-cta">
+        
         <div class="hero-header">
             <h2 class="responsive-heading"><b>Unlock</b> Innovation: Secure <b>Your</b> Tech Event Pass <b>Today!</b></h2>
-            <p class="lead text-light fw-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur repudiandae, deserunt qui corrupti atque</p>
-            <button>Book Now</button>
+            <p class="lead text-light fw-1">{{event_.description}}</p>
+            <a href="{% url 'event_detail' pk=event_.event_id %}" class="hero-btn">Book Now</a>
         </div>    
+      
     </section>
 
     <section class="feature-events" id="trending">

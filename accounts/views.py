@@ -13,13 +13,22 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate, logout
 from accounts.models import UserProfile
 from events.models import Event
+from django.views.decorators.cache import cache_page
+from datetime import datetime
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 CustomUser = get_user_model()
 
 # Create your views here.
+
+
 def home(request):
-    return render(request, 'accounts/home.html')
+    event_ = Event.objects.all().first()
+    print(event_)
+    return render(request, 'accounts/home.html', {"event_":event_})
 
 def activateEmail(request, user, to_email):
     subject = 'Activate your account'
@@ -95,6 +104,7 @@ def admin_dashboard_view(request):
     users = CustomUser.objects.all()
     return render(request, 'accounts/dashboard/admin_dashboard_view.html', {"users":users})
 
+# @cache_page(5)
 @login_required
 @user_passes_test(is_regular_user)
 def user_dashboard_view(request):
@@ -125,6 +135,21 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'You have been logged out!!!')
     return redirect('login')
+
+
+class UserPasswordResetView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'accounts/password_reset.html'
+    email_template_name = 'accounts/password_reset_email.html'
+    subject_template_name = 'accounts/password_reset_subject.txt'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy('login')
+
+class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
+    template_name = 'accounts/password_reset_confirm.html'
+    success_url = reverse_lazy('password_reset_complete')
 
 
 @login_required

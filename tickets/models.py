@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from events.models import Event
 import uuid
+from django.urls import reverse
 
 
 CustomUser = get_user_model()
@@ -38,6 +39,9 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"{self.event.name}"
+    
+    def get_absolute_url(self):
+        return reverse('validate-ticket', kwargs={'ticket_id':self.ticket_id})
 
     class Meta:
         ordering = ["-created_at"]

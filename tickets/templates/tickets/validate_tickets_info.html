@@ -1,7 +1,7 @@
 {% extends 'accounts/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title%}Purchased Tickets {% endblock %}
+{% block title%}Validate Tickets {% endblock %}
 
 {% block header %}
 <div class="header-bg">
@@ -18,9 +18,6 @@
                 {% else %}
                     <li class="nav-item"><a  class="nav-link" href="{% url 'user_dashboard_view' %}">Dashboard</a></li>
                 {% endif %}
-                <li class="nav-item"><a class="nav-link"  href="{% url 'booked_event' %}">Booked Events</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'saved_event_qrcodes' %}">Saved Qrcodes</a></li>
-                <li class="nav-item"><a class="nav-link active" href="{% url 'purchased_tickets' %}">Purchased Tickets</a></li>
                 <li class="nav-item">
                     {% if user.profile.profile_picture%}
                     <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" id="prof_img" width="30" height="30" alt="profile"/>
@@ -39,24 +36,22 @@
 
 {% block content %}
 <div class="container pt-4">
-    <h1 class="text-primary">Total Number of Purchased Tickets: <b class="text-primary">{{tickets_count}}</b></h1>
+    <h1 class="text-start">Validate Ticket</h1>
     <table class="table table-striped">
         <thead>
           <tr> 
-            <th scope="col">Event_name</th>
-            <th scope="col">Ticket</th>
+            <th scope="col">User</th>
+            <th scope="col">Event</th>
+            <th scope="col">Ticket Id</th>
           </tr>
         </thead>
         <tbody>
-            {% for ticket in tickets %}
           <tr>
+            <td>{{ticket.user.first_name}} {{ticket.user.last_name}}</td>
             <td>{{ticket.event.name}}</td>
-            <td><a class="btn btn-primary " href="{% url 'ticket_pdf' ticket_id=ticket.ticket_id %}">download</a></td>
+            <td>{{ticket.ticket_id}}</td>
           </tr>
-          {% endfor %}
         </tbody>
       </table>
-      
-</div>
 </div>
 {%endblock%}

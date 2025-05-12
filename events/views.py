@@ -8,6 +8,8 @@ import uuid
 from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 
 # Create your views here.
@@ -18,11 +20,10 @@ CustomUser = get_user_model()
 @login_required
 def event_detail_view(request, pk):
     event = Event.objects.get(event_id=pk)
-  
-    price = event.price
-    # Check if the user has purchased the ticket for the event
-    ticket_user = Ticket.objects.filter(user__email=request.user)
+    ticket = Ticket.objects.select_related("event").filter(user__email=request.user)
+    print(ticket)
 
+    price = event.price
     # The domain_host address
     host = request.get_host()
     user = CustomUser.objects.get(email=request.user)
@@ -41,11 +42,15 @@ def event_detail_view(request, pk):
         'custom':user_id
 
     }
-    form = PayPalPaymentsForm(initial=paypal_checkout)
+    for tick in ticket:
+        if tick.event == event:
+            messages.info(request, "Sorry you have booked this ticket")
+            context = {"event":event}
+        else:
+            form = PayPalPaymentsForm(initial=paypal_checkout)
+            context = {"event":event, "form":form}
 
-    return render(request, 'events/event_detail.html',  {
-                "event":event,
-                'form':form, "ticket":ticket_user})
+    return render(request, 'events/event_detail.html', context)
 
 @login_required
 def payment_success(request):
@@ -58,12 +63,21 @@ def saved_event_qrcodes(request):
 @login_required
 def booked_event(request):
     user = CustomUser.objects.get(email=request.user)
-    user_tickets_events = Ticket.objects.select_related('event').filter(user=user)
-    print(user_tickets_events)
     
-    # Get the total number of events based on the tickets purchased
+    # print(user_tickets_events)
+    cached_key = f"user_tickets_events_{user.id}"
+    
+    if cache.get(cached_key):
+        user_tickets_events = cache.get(cached_key)
+        print("hit the cache")
+    else:
+        user_tickets_events = Ticket.objects.select_related('event').filter(user=user)
+        # Get the total number of events based on the tickets purchased
+        cache.set(cached_key, user_tickets_events, timeout=60 * 15)
+        print("hit the db")
+
     booked_event_count = user_tickets_events.count()
-   
+
     return render(request, 'events/booked_events.html', {"booked_event":booked_event_count, "user_tickets_events":user_tickets_events})
 
 

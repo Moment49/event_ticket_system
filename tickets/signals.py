@@ -14,8 +14,7 @@ from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
-
-
+from time import sleep
 
 
 CustomUser = get_user_model()
@@ -23,9 +22,8 @@ CustomUser = get_user_model()
 
 @receiver(valid_ipn_received)
 def paypal_payment_recieved(sender, **kwargs):
-    import time
     # Wait 10 secs for paypal to send IPN data
-    time.sleep(10)
+    sleep(10)
 
     paypal_obj = sender
     if paypal_obj.payment_status == ST_PP_COMPLETED:
@@ -41,7 +39,7 @@ def paypal_payment_recieved(sender, **kwargs):
                                 event=event)
             ticket.save()
 
-            fullname = f"{user.first_name}_{user.last_name}"
+            fullname = f"{user.first_name} {user.last_name}"
             filename = f"{fullname}_{ticket.event}.pdf"
             documentTitle = f"{ticket.event}"
 
@@ -50,7 +48,7 @@ def paypal_payment_recieved(sender, **kwargs):
             date = f"{ticket.event.date}"
             time = f"{ticket.event.time} Prompt"
             location = f"{ticket.event.venue}"
-
+            
            
             buffer = io.BytesIO()
             # Create the PDF object, using the buffer as its "file."
@@ -59,7 +57,7 @@ def paypal_payment_recieved(sender, **kwargs):
 
             # Draw things on the PDF. Here's where the PDF generation happens.
             # See the ReportLab documentation for the full list of functionality.  
-            pdf.setFont('Courier-Bold', 18)
+            pdf.setFont('Times-Roman', 18)
             pdf.drawCentredString(350, 750, title)
 
             pdf.setTitle(documentTitle)
@@ -89,21 +87,21 @@ def paypal_payment_recieved(sender, **kwargs):
             pdf.showPage()
             pdf.save()
 
-            # FileResponse sets the Content-Disposition header so that browsers
-            # present the option to save the file.
+            #set the buffer point to the beginning to get all the data.
             buffer.seek(0)
-            print(pdf)
+           
 
-            # #Send the email
+            pdf = buffer.getvalue()
+            buffer.close()
             email = EmailMessage(
-                "Ticket for user",
+                "Here’s Your Ticket for Event!",
                 "This is your ticket",
                 f"{settings.DEFAULT_EMAIL_FROM}",
                 ["ibenachoelvis49@gmail.com"],
             )
-            # email.attach(filename, pdf, 'application/pdf')
+            email.attach(filename, pdf, 'application/pdf')
             email.send()
-            print(email)
+           
             
     
     else:

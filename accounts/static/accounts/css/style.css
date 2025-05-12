@@ -148,7 +148,8 @@ overflow-y: hidden;
     color: #2C9CF0;
 }
 
-.hero-cta .hero-header button{
+
+.hero-cta .hero-header .hero-btn{
     border-radius: 20px;
     padding: 7px 30px;
     display: inline-block;
@@ -160,11 +161,15 @@ overflow-y: hidden;
     font-weight: 600;
     margin-top:1rem;
     transition: 0.5s;
+    text-decoration: none;
+
 }
-.hero-cta .hero-header button:hover{
+
+
+.hero-cta .hero-header .hero-btn:hover{
     background: #2C9CF0;
     color: white;
-}
+} 
 
 /* Features */
 .feature-events{
@@ -421,6 +426,99 @@ overflow-y: hidden;
     opacity: 0.85;
 }
 
+
+
+/* Dashboard Side bar */
+.wrapper {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+#sidebar {
+    height: 100%;
+    width: 60px; /* Collapsed width */
+    background-color: #04092C;
+    color: white;
+    transition: width 0.3s ease; /* Uniform transition */
+    position: relative;
+  }
+
+#sidebar div{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+#sidebar.expanded {
+    width: 200px; /* Expanded width */
+  }
+#toggleSidebar{
+    background: transparent;
+    color:whitesmoke;
+    padding: 10px 15px;
+    border: none;
+    position: relative;
+    right: 5px;
+
+}
+#sidebar .nav-link {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    width: 100%; /* Ensure it takes the full sidebar width */
+    transition: background-color 0.3s ease, color 0.3s ease, width 0.3s ease; /* Sync width */
+  }
+
+.menu-text {
+    opacity: 0;
+    margin-left: 10px;
+    transition: opacity 0.3s ease, margin-left 0.3s ease; /* Match sidebar transition */
+  }
+
+#sidebar.expanded .menu-text {
+    opacity: 1;
+    margin-left: 15px;
+  }
+
+#sidebar .nav-link.active {
+    background-color: #495057;
+    color: #ffffff;
+  }
+#sidebar .nav-link div.active {
+    background-color: #495057;
+    color: #ffffff;
+  }
+
+#sidebar .nav-link #prof_img{
+    margin-left: -5px;
+   
+}
+
+#content {
+    flex-grow: 1;
+    overflow-y: auto; /* Allows scrolling for long content */
+  }
+
+.welcome-greeting{
+    margin-left: 40px;
+}
+.line-hor{
+    border: 1px solid #1b2024;
+    margin-top: 0;
+    padding-top: 0;
+    width: 50px;
+    position: relative;
+    left:30px;
+    top: 0;
+    bottom: 10px;
+  
+}
+#latest-events{
+    margin-left: 30px;
+}
 
 /* Media Queries */
 @media only screen and (max-width: 576px){

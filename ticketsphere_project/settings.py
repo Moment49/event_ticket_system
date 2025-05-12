@@ -31,9 +31,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','4499-105-113-61-55.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1','e643-105-113-68-150.ngrok-free.app']
 
-CSRF_TRUSTED_ORIGINS = ["https://4499-105-113-61-55.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://e643-105-113-68-150.ngrok-free.app"]
 
 
 # Application definition
@@ -62,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'accounts.middleware.MaintenaceModeMiddleware',
+    'accounts.middleware.CustomLoginMiddleware'
 ]
 
 ROOT_URLCONF = 'ticketsphere_project.urls'
@@ -169,3 +171,27 @@ MEDIA_ROOT =  BASE_DIR / 'media'
 PAYPAL_RECEIVER_EMAIL = 'business@techconvene.com'
 
 PAYPAL_TEST = True
+
+# Middleware setting for Application maintenace mode
+MAINTENANCE_MODE = False
+
+# CACHE SETTINGS
+CACHES = {
+    'default': {
+        'BACKEND':'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+} 
+
+from django.contrib import messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
