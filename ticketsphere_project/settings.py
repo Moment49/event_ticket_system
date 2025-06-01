@@ -50,7 +50,11 @@ INSTALLED_APPS = [
     'tickets.apps.TicketsConfig',
     'crispy_forms',
     'crispy_bootstrap5',
-    'paypal.standard.ipn'
+    'paypal.standard.ipn',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
    
 ]
 
@@ -63,7 +67,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'accounts.middleware.MaintenaceModeMiddleware',
-    'accounts.middleware.CustomLoginMiddleware'
+    'accounts.middleware.CustomLoginMiddleware',
+      # Add the account middleware:
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'ticketsphere_project.urls'
@@ -185,6 +191,12 @@ CACHES = {
         }
     }
 } 
+
+# Authentication Backends
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend', # standard django backend
+    'allauth.account.auth_backends.AuthenticationBackend', # all auth backend
+]
 
 from django.contrib import messages
 

@@ -14,16 +14,15 @@ from django.core.cache import cache
 
 # Create your views here.
 
-
 CustomUser = get_user_model()
 
 @login_required
 def event_detail_view(request, pk):
     event = Event.objects.get(event_id=pk)
     ticket = Ticket.objects.select_related("event").filter(user__email=request.user)
-    print(ticket)
 
     price = event.price
+
     # The domain_host address
     host = request.get_host()
     user = CustomUser.objects.get(email=request.user)
@@ -40,15 +39,18 @@ def event_detail_view(request, pk):
         'return_url':f"http://{host}{reverse('payment_sucesss')}",
         'cancel_url':f"http://{host}{reverse('event_detail', kwargs={'pk':event.event_id})}",
         'custom':user_id
-
     }
-    for tick in ticket:
-        if tick.event == event:
-            messages.info(request, "Sorry you have booked this ticket")
-            context = {"event":event}
-        else:
+
+    
+    if not ticket.exists():
+        form = PayPalPaymentsForm(initial=paypal_checkout)
+        context = {"event":event, "form":form}
+    else:
+        if not ticket.filter(event_id=pk).exists():
             form = PayPalPaymentsForm(initial=paypal_checkout)
             context = {"event":event, "form":form}
+        else:
+            context = {"event":event}
 
     return render(request, 'events/event_detail.html', context)
 

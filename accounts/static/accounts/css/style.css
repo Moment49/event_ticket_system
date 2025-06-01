@@ -50,7 +50,7 @@ overflow-y: hidden;
     color: white;
     background: transparent;
     padding: 2px 20px;
-    border-radius: 15px;
+    border-radius: 20px;
     font-size: 0.95rem;
     transition: 0.3s;
     border : 0.1px solid whitesmoke;
@@ -62,6 +62,38 @@ overflow-y: hidden;
 #login:hover{
     border-color: #2C9CF0;
    
+}
+
+/* Login Google */
+
+.google_login {
+    display: flex;
+    width: 100%;
+    background: whitesmoke;
+    box-shadow:1px 2px 1px #eaeaea;
+    z-index: 1;
+    gap: 1rem;
+  
+}
+.login-with-google-btn{
+    background: whitesmoke;
+    box-shadow:1px 2px 1px #eaeaea;
+    color: #04092C;
+    width: 100%;
+    padding: 6px 0;
+    font-weight: 400;
+    font-size: 15px;
+    position: relative;
+    border: none;
+   
+}
+
+.login-with-google-btn i{
+   z-index: 100;
+   color: red;
+   position: absolute;
+   left: 0;
+   padding-left: 10px;
 }
 
 #signup:hover{

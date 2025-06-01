@@ -36,10 +36,10 @@
         </a>
         <div>
          <a href="{% url 'profile' %}" class="nav-link text-light">
-            {% if user.profile.profile_picture%}
-         <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" id="prof_img" width="30" height="30" alt="profile"/>
-          {%else%}
-            <img src="#" class="rounded-circle" width="30" height="30"/>
+          {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}"  class="rounded-circle" width="30" height="30" alt="no image"/>
+            {% else %}
+            <img  src="{% static 'accounts/images/avatar.jpg' %}" class="rounded-circle" width="30" height="30"/>
             {% endif %}
           <span class="menu-text">Profile</span>
         </a> 

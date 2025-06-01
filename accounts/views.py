@@ -157,9 +157,9 @@ def profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
     return render(request, 'accounts/profile.html', {"user_profile":user_profile})
 
-def edit_profile(request, user):
-    user = CustomUser.objects.get(first_name=user)
-    print(user)
+def edit_profile(request, username):
+    user = CustomUser.objects.get(username=username)
+    print(username)
     user_profile = UserProfile.objects.get(user=user)
    
     if request.method == 'POST':
@@ -181,6 +181,7 @@ def edit_profile(request, user):
 
             user.save()
             user_profile.save()
+            messages.success(request, "profile updated successfully..")
             return redirect('profile')
     else:
         form = ProfileForm({

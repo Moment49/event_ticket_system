@@ -14,7 +14,7 @@
     <div id="sidebar" class="text-light collapsed d-flex flex-column">
       <button class="w-100 mb-3 mt-3" id="toggleSidebar">☰</button>
       <nav class="nav flex-column">
-        <a href="#" class="nav-link active text-light">
+        <a href="{% url 'user_dashboard_view'%}" class="nav-link text-light">
           <i class="bi bi-house"></i>
           <span class="menu-text">Dashboard</span>
         </a>
@@ -39,14 +39,14 @@
           <span class="menu-text">Chat support</span>
         </a>
         <div>
-            <a href="{% url 'profile' %} active" class="nav-link text-light">
-         <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" id="prof_img" width="30" height="30" alt="profile"/>
+            <a href="{% url 'profile' %} active" class="nav-link active text-light">
+           {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}"  class="rounded-circle" width="30" height="30" alt="no image"/>
+            {% else %}
+            <img  src="{% static 'accounts/images/avatar.jpg' %}" class="rounded-circle" width="30" height="30"/>
+            {% endif %}
           <span class="menu-text">Profile</span>
         </a> 
-         <a href="{% url 'logout' %}" class="nav-link text-light">
-         <i class="bi bi-gear"></i>
-          <span class="menu-text">Settings</span>
-        </a>
          <a href="{% url 'logout' %}" class="nav-link text-light">
          <i class="bi bi-box-arrow-left"></i>
           <span class="menu-text">Logout</span>
