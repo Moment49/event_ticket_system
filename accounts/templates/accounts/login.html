@@ -1,6 +1,6 @@
 {% extends 'accounts/base.html'%}
 {% load static %}
- {% load socialaccount %}
+{% load socialaccount %}
 {% block title%}Sign In {% endblock %}
 
 
@@ -62,9 +62,13 @@
                             <p class="text-end"><a href="{% url 'password_reset' %}" class="text-decoration-none text-light">Forgot Password?</a></p>
                            
                             <button type="submit" class="btn btn-primary mb-3 w-100 rounded-pill">Sign In</button>
-                             <br><button  type="button" class="login-with-google-btn rounded-pill" > <i class="bi bi-google"></i>
-                              <b>Sign in with Google</b>
-                              </button>
+                              <a href="{% provider_login_url 'google' %}">
+                                <button type="button"  class="login-with-google-btn rounded-pill">
+                                 <i class="bi bi-google"></i><b>Sign in with Google</b>
+                                </button>
+                            </a>
+
+                             
                             <p class="text-center p-2">Don't have an account? <a href="{% url 'register' %}" class="text-decoration-none">Sign Up</a></p>
                         </div>
                     </form>

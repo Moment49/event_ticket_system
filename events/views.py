@@ -58,9 +58,7 @@ def event_detail_view(request, pk):
 def payment_success(request):
     return render(request, 'events/payment_success.html')
 
-@login_required
-def saved_event_qrcodes(request):
-    return render(request, 'events/saved_qrcodes.html')
+
 
 @login_required
 def booked_event(request):

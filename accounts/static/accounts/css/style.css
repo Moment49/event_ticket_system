@@ -65,16 +65,6 @@ overflow-y: hidden;
 }
 
 /* Login Google */
-
-.google_login {
-    display: flex;
-    width: 100%;
-    background: whitesmoke;
-    box-shadow:1px 2px 1px #eaeaea;
-    z-index: 1;
-    gap: 1rem;
-  
-}
 .login-with-google-btn{
     background: whitesmoke;
     box-shadow:1px 2px 1px #eaeaea;
@@ -84,7 +74,8 @@ overflow-y: hidden;
     font-weight: 400;
     font-size: 15px;
     position: relative;
-    border: none;
+    border:none;
+    text-decoration: none;
    
 }
 
@@ -550,6 +541,12 @@ overflow-y: hidden;
 }
 #latest-events{
     margin-left: 30px;
+}
+
+/* Payment Icon */
+#payment-icon i{
+    width: 30px;
+    font-size: 1.5rem;
 }
 
 /* Media Queries */

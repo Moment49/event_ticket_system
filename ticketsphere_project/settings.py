@@ -31,9 +31,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','e643-105-113-68-150.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1']
 
-CSRF_TRUSTED_ORIGINS = ["https://e643-105-113-68-150.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = []
 
 
 # Application definition
@@ -55,8 +55,10 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'django.contrib.sites'
    
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -197,6 +199,25 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend', # standard django backend
     'allauth.account.auth_backends.AuthenticationBackend', # all auth backend
 ]
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
 
 from django.contrib import messages
 

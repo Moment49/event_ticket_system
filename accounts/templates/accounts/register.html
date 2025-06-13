@@ -1,6 +1,7 @@
 {% extends 'accounts/base.html'%}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 {% block title%}Sign Up {% endblock %}
 
 {% block header %}
@@ -64,6 +65,11 @@
                       
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary mt-2 mb-3 w-100 rounded-pill">Sign Up</button>
+                            <a href="{% provider_login_url 'google' %}">
+                                <button type="button"  class="login-with-google-btn rounded-pill">
+                                 <i class="bi bi-google"></i><b>Sign up with Google</b>
+                                </button>
+                            </a>
                             <p class="text-center p-2">Already have an account? <a href="{% url 'login' %}" class="text-decoration-none">Sign In</a></p>
                         </div>
                     </form>

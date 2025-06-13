@@ -4,41 +4,58 @@
 {% block title%}Purchased Tickets {% endblock %}
 
 {% block header %}
-<div class="header-bg">
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-          <a class="navbar-brand" href="{% url 'home' %}"><b id='logo'>Tech</b>Convene</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto my-auto mb-1 mb-lg-0">
-                {% if user.role == 'ADMIN'%}
-                    <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'admin_dashboard_view' %}">Dashboard</a></li>
-                {% else %}
-                    <li class="nav-item"><a  class="nav-link" href="{% url 'user_dashboard_view' %}">Dashboard</a></li>
-                {% endif %}
-                <li class="nav-item"><a class="nav-link"  href="{% url 'booked_event' %}">Booked Events</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'saved_event_qrcodes' %}">Saved Qrcodes</a></li>
-                <li class="nav-item"><a class="nav-link active" href="{% url 'purchased_tickets' %}">Purchased Tickets</a></li>
-                <li class="nav-item">
-                    {% if user.profile.profile_picture%}
-                    <img src="{{ user.profile.profile_picture.url}}" class="rounded-circle" id="prof_img" width="30" height="30" alt="profile"/>
-                    {%else%}
-                    <img src="#" class="rounded-circle" width="30" height="30"/>
-                    {% endif %}
-                </li>
-                <a href="{% url 'profile' %}" class="text-decoration-none text-light"><p class="profile_text">{{user.first_name}} {{user.last_name}}<br>@{{user.username}}</br></p></a>
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}" >Logout</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-</div>
 {% endblock %}
 
-{% block content %}
-<div class="container pt-4">
+{% block content%}
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar" class="text-light collapsed d-flex flex-column">
+      <button class="w-100 mb-3 mt-3" id="toggleSidebar">☰</button>
+      <nav class="nav flex-column">
+        <a href="{% url 'user_dashboard_view' %}" class="nav-link text-light">
+          <i class="bi bi-house"></i>
+          <span class="menu-text">Dashboard</span>
+        </a>
+        <a href="#" class="nav-link active text-light">
+          <i class="bi bi-ticket"></i>
+          <span class="menu-text">Tickets</span>
+        </a>
+        <a href="#" class="nav-link text-light">
+          <i class="bi bi-calendar3"></i>
+          <span class="menu-text">Booked Events</span>
+
+        <a href="#" class="nav-link text-light">
+         <i class="bi bi-people-fill"></i>
+          <span class="menu-text">Meet others</span>
+
+        <a href="#" class="nav-link text-light">
+          <i class="bi bi-envelope"></i>
+          <span class="menu-text">Notifications</span>
+        </a>
+         <a href="#" class="nav-link text-light">
+         <i class="bi bi-chat-dots"></i>
+          <span class="menu-text">Chat support</span>
+        </a>
+        <div>
+            <a href="{% url 'profile' %}" class="nav-link  text-light">
+            {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}"  class="rounded-circle" width="30" height="30" alt="no image"/>
+            {% else %}
+            <img  src="{% static 'accounts/images/avatar.jpg' %}" class="rounded-circle" width="30" height="30"/>
+            {% endif %}
+          <span class="menu-text">Profile</span>
+        </a> 
+         <a href="{% url 'logout' %}" class="nav-link text-light">
+         <i class="bi bi-box-arrow-left"></i>
+          <span class="menu-text">Logout</span>
+        </a>
+        </div>
+        
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container pt-4">
     <h1 class="text-primary">Total Number of Purchased Tickets: <b class="text-primary">{{tickets_count}}</b></h1>
     <table class="table table-striped">
         <thead>
@@ -59,4 +76,12 @@
       
 </div>
 </div>
-{%endblock%}
+{% endblock%}
+
+
+{% block footer%}
+{% endblock %}
+
+
+
+
