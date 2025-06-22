@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'django.contrib.sites',
     'chat.apps.ChatConfig',
+    'channels'
    
 ]
 
@@ -94,6 +95,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ticketsphere_project.wsgi.application'
+
+ASGI_APPLICATION = 'ticketsphere_project.asgi.application'
 
 
 # Database
