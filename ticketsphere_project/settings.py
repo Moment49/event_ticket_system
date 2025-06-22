@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'django.contrib.sites'
+    'django.contrib.sites',
+    'chat.apps.ChatConfig',
    
 ]
 

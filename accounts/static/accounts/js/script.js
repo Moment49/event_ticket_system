@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
         const alertElement = document.getElementById("test_btn");
-        console.log(alertElement)
+        
 
         if (alertElement) {
             const bsAlert = new bootstrap.Alert(alertElement);
@@ -18,15 +18,22 @@ const sidebar = document.getElementById('sidebar');
 toggleSidebar.addEventListener('click', () => {
     sidebar.classList.toggle('collapsed');
     sidebar.classList.toggle('expanded');
+
+    if (sidebar.classList.contains('expanded')){
+        toggleSidebar.style.left = '190px';
+    }else {
+        toggleSidebar.style.left = '45px';
+        console.log(toggleSidebar)
+    }
 });
 
-    // Highlight the active menu item dynamically
-    const links = document.querySelectorAll('#sidebar .nav-link');
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-        // Remove active class from all links
-        links.forEach(l => l.classList.remove('active'));
-        // Add active class to the clicked link
-        link.classList.add('active');
-        });
+// Highlight the active menu item dynamically
+const links = document.querySelectorAll('#sidebar .nav-link');
+links.forEach(link => {
+    link.addEventListener('click', () => {
+    // Remove active class from all links
+    links.forEach(l => l.classList.remove('active'));
+    // Add active class to the clicked link
+    link.classList.add('active');
     });
+});

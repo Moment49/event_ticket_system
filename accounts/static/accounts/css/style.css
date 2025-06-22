@@ -475,30 +475,47 @@ overflow-y: hidden;
 #sidebar.expanded {
     width: 200px; /* Expanded width */
   }
-#toggleSidebar{
-    background: transparent;
-    color:whitesmoke;
-    padding: 10px 15px;
+#toggleSidebar {
+    background: #495057;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
     border: none;
-    position: relative;
-    right: 5px;
-
+    position: fixed;
+    left:45px;      /* Place it right beside the sidebar */
+    top: 0px;        /* Adjust as needed */
+    z-index: 1000;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: left 0.5s;
 }
+
+#sidebar.expanded + #toggleSidebar {
+    left: 200px;
+}
+
 #sidebar .nav-link {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: flex;
     align-items: center;
-    padding: 0.8rem 1rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    text-align: center;
     width: 100%; /* Ensure it takes the full sidebar width */
-    transition: background-color 0.3s ease, color 0.3s ease, width 0.3s ease; /* Sync width */
+    transition: background-color 0.5s ease, color 0.5s ease, width 0.5s ease; /* Sync width */
   }
 
 .menu-text {
     opacity: 0;
-    margin-left: 10px;
-    transition: opacity 0.3s ease, margin-left 0.3s ease; /* Match sidebar transition */
+    margin-left: 15px;
+    transition: opacity 0.5s ease, margin-left 0.5s ease; /* Match sidebar transition */
   }
 
 #sidebar.expanded .menu-text {
@@ -520,13 +537,105 @@ overflow-y: hidden;
    
 }
 
+/* Logo for dashboard */
+#sidebar .logo {
+    text-decoration: none;
+    padding: 18px 0; 
+    text-align: center;
+    cursor:pointer;
+    color:  #495057; 
+    margin-bottom: 15px;
+    font-size: 1rem;
+    
+}
+
+
+#sidebar .logo i{
+    color:  whitesmoke;
+
+}
+
+#logo_home_dash{
+    font-weight: 500;
+    color: #2C9CF0;
+}
+
 #content {
     flex-grow: 1;
-    overflow-y: auto; /* Allows scrolling for long content */
+    overflow-y: auto; 
+    box-sizing: border-box;
+    width: 100%;
   }
 
+#content .content_header_dash {
+    background: whitesmoke;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    width: 100%;
+    padding: 0 40px;
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+}
+
+#content .content_header_dash > div {
+    display: flex;
+    align-items: center;
+    
+}
+
+#content .content_header_dash div input[type="search"] {
+    padding: 4px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px 0 0 20px;
+    background: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    margin-right: 0;
+    width: 180px;
+}
+
+#content .content_header_dash div input[type="search"]:focus {
+    border-color: #04092C;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.15);
+}
+
+#content .content_header_dash div button[type="submit"] {
+    border-radius: 0 20px 20px 0;
+    border: 1px solid #ccc;
+    border-left: none;
+    padding: 3px 6px;
+    margin-left: 0;
+    background: #fff;
+    color: #333;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    transition: background 0.2s;
+    font-size: 1rem;
+    display: flex;
+    gap: 0;
+    align-items: center;
+}
+
+#content .content_header_dash div button[type="submit"]:hover {
+    background: #f0f0f0;
+}
+
+
+#content .content_header_dash  div i{
+    margin: 0 0.6rem;
+    font-size: 1.1rem;
+    color: #04092C;
+    text-align: center;
+} 
 .welcome-greeting{
-    margin-left: 40px;
+    font-size: 1.1rem;
+    width: 100%;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    padding: 15px 25px;
 }
 .line-hor{
     border: 1px solid #1b2024;
@@ -544,9 +653,33 @@ overflow-y: hidden;
 }
 
 /* Payment Icon */
-#payment-icon i{
-    width: 30px;
-    font-size: 1.5rem;
+.pay{
+    width: 350px;
+    height: 370px;
+    background: #04092C;
+    margin: 70px auto;
+    color: whitesmoke;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+#payment-icon{
+    font-size: 3rem;
+    color: green;
+    text-align: center;
+    
+}
+
+.pay p{
+    color: whitesmoke;
+    text-align: center;
+    padding-top:10px ;
+}
+
+.pay a{
+    text-decoration: none;
+    color: green;
+    font-weight: 700;
 }
 
 /* Media Queries */

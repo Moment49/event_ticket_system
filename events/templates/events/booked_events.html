@@ -11,17 +11,20 @@
 <div class="wrapper">
     <!-- Sidebar -->
     <div id="sidebar" class="text-light collapsed d-flex flex-column">
-      <button class="w-100 mb-3 mt-3" id="toggleSidebar">☰</button>
+     <a href="#" class="logo">
+        <i class="bi bi-amd"></i><span class="menu-text"><b id='logo_home_dash'>Tech</b>Convene</span>
+      </a>
+      <button class="mb-3 mt-3" id="toggleSidebar">☰</button>
       <nav class="nav flex-column">
         <a href="{% url 'user_dashboard_view' %}" class="nav-link text-light">
           <i class="bi bi-house"></i>
           <span class="menu-text">Dashboard</span>
         </a>
-        <a href="#" class="nav-link text-light">
+        <a href="{% url 'purchased_tickets' %}" class="nav-link text-light">
           <i class="bi bi-ticket"></i>
           <span class="menu-text">Tickets</span>
         </a>
-        <a href="" class="nav-link active text-light">
+        <a href="{% url 'booked_event' %}" class="nav-link active text-light">
           <i class="bi bi-calendar3"></i>
           <span class="menu-text">Booked Events</span>
 
@@ -33,7 +36,7 @@
           <i class="bi bi-envelope"></i>
           <span class="menu-text">Notifications</span>
         </a>
-        <a href="#" class="nav-link text-light">
+        <a href="{% url 'chat_view' %}"class="nav-link text-light">
         <i class="bi bi-chat-dots"></i>
           <span class="menu-text">Chat support</span>
         </a>
@@ -55,7 +58,21 @@
     </div>
 
     <!-- Main Content -->
-    <div class="container pt-4">
+    <div id='content' class="container pt-4">
+      <div class="content_header_dash container-fluid">
+        <div>
+          <input name="search" type="search" placeholder="Search..." aria-label="Search">
+          <button class="btn btn-outline-dark" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+        <div>
+          <i class="bi bi-bell-fill"></i>
+          <i class="bi bi-envelope"></i>
+           <img  src="{% static 'accounts/images/pexels-blitzboy-1040880.jpg' %}" class="rounded-circle border border-dark" width="35" height="35"/>
+        </div>
+      </div>
+      <h4 class="welcome-greeting container-fluid" >Booked events</h4>
     <h1>Total Number of Booked Events: <b class="text-primary">{{booked_event}}</b></h1>
     <table class="table table-striped">
         <thead>
