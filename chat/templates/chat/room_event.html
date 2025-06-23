@@ -1,0 +1,220 @@
+{% extends 'accounts/base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title%}MeetOthers {% endblock %}
+
+
+{% block content %}
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar" class="text-light collapsed d-flex flex-column">
+      <a href="#" class="logo">
+        <i class="bi bi-amd"></i><span class="menu-text"><b id='logo_home_dash'>Tech</b>Convene</span>
+      </a>
+      <button class="mb-3 mt-3" id="toggleSidebar">☰</button>
+      <nav class="nav flex-column">
+        <a href="{% url 'user_dashboard_view' %}" class="nav-link  text-light">
+          <i class="bi bi-house"></i>
+          <span class="menu-text">Dashboard</span>
+        </a>
+        <a href="{% url 'purchased_tickets' %}" class="nav-link text-light">
+          <i class="bi bi-ticket"></i>
+          <span class="menu-text">Tickets</span>
+        </a>
+        <a href="{% url 'booked_event' %}" class="nav-link text-light">
+          <i class="bi bi-calendar3"></i>
+          <span class="menu-text">Booked Events</span>
+
+        <a href="{% url 'chat_view' %}" class="nav-link active text-light">
+         <i class="bi bi-people-fill"></i>
+          <span class="menu-text">Meet others</span>
+
+        <a href="#" class="nav-link text-light">
+          <i class="bi bi-envelope"></i>
+          <span class="menu-text">Notifications</span>
+        </a>
+         <a href="#" class="nav-link text-light">
+         <i class="bi bi-chat-dots"></i>
+          <span class="menu-text">Chat support</span>
+        </a>
+        <div>
+         <a href="{% url 'profile' %}" class="nav-link text-light">
+          {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}"  class="rounded-circle" width="30" height="30" alt="no image"/>
+            {% else %}
+            <img  src="{% static 'accounts/images/avatar.jpg' %}" class="rounded-circle" width="30" height="30"/>
+            {% endif %}
+          <span class="menu-text">Profile</span>
+        </a> 
+         <a href="{% url 'logout' %}" class="nav-link text-light">
+         <i class="bi bi-box-arrow-left"></i>
+          <span class="menu-text">Logout</span>
+        </a>
+        </div>
+        
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content" class="bg-light p-3">
+      <div class="content_header_dash container-fluid">
+        <div>
+          <input name="search" type="search" placeholder="Search..." aria-label="Search">
+          <button class="btn btn-outline-dark" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+        <div>
+          <i class="bi bi-bell-fill"></i>
+          <i class="bi bi-envelope"></i>
+           <img  src="{% static 'accounts/images/pexels-blitzboy-1040880.jpg' %}" class="rounded-circle border border-dark" width="35" height="35"/>
+        </div>
+      </div>
+      <h4 class="welcome-greeting container-fluid" >Chat View</h4>
+        <style>
+          .page-container {
+          background-color: whitesmoke;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100vh;
+        }
+        .content {
+          width: 80%;
+          max-width: 500px;
+          padding: 2rem;
+          max-height: 80vh;
+          background-color: #eef0f2;
+          border-radius: 1rem;
+          box-shadow: 0px 0px 1rem 0px rgba(0, 0, 0, 0.2);
+          display: grid;
+          grid-template-rows: fit-content auto fit-content;
+        }
+          .chats-container {
+          width: 100%;
+          height: 20rem;
+          overflow-y: scroll;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .chats-container::-webkit-scrollbar { display: none; }
+        .single-message {
+          width: fit-content;
+          max-width: 60%;
+          clear: both;
+        }
+        .msg-body {
+          margin-top: 0.25rem;
+          padding: 0.5rem;
+          background-color:#04092C;
+          color: #ffffff;
+          font-size: 1rem;
+          border-radius: 0.25rem;
+          word-wrap: break-word;
+        }
+         .sent { float: right; }
+        .sent > .msg-body { background-color: #8c00ff; }
+        .sender {
+          margin-top: 0.25rem;
+          font-size: 0.75rem;
+        }
+        form {
+          margin-top: 1rem;
+          display: grid;
+          grid-template-columns: auto 2.5rem;
+          gap: 0.5rem;
+        }
+        textarea {
+          height: 5rem;
+          resize: none;
+          outline: none;
+          border: none;
+          padding: 0.5rem 1rem;
+          background-color: #dadee1;
+          border-radius: 0.5rem;
+          width: 100%;
+          overflow-y: scroll;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+         textarea::-webkit-scrollbar { display: none; }
+        </style>
+       <div class="page-container">
+        <div class="content">
+          <h1 class="fs-6">Welcome to {{room_event}}</h1>
+          <div class="chats-container" id="chats-container">
+            {%for get_message in get_messages%}
+            {% if get_message.sender.lower == username.lower %}
+            <div class="single-message sent">
+              <div class="msg-body">{{get_message.message}}</div>
+              <p class="sender">Me</p>
+            </div>
+
+            {% else %}
+            <div class="single-message">
+              <div class="msg-body">{{get_message.message}}</div>
+              <p class="sender">{{get_message.sender}}</p>
+            </div>
+            {% endif %}
+            {%endfor%}
+
+            <!-- <div class="single-message sent">
+                <div class="msg-body">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
+                  esse.
+                </div>
+                <p class="sender">Me</p>
+              </div>
+              <div class="single-message">
+                <div class="msg-body">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
+                  esse.
+                </div>
+                <p class="sender">Sender</p>
+              </div>
+              <div class="single-message sent">
+                <div class="msg-body">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
+                  esse.
+                </div>
+                <p class="sender">Me</p>
+              </div>
+              <div class="single-message">
+                <div class="msg-body">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
+                  esse.
+                </div>
+                <p class="sender">Sender</p>
+              </div>
+              <div class="single-message sent">
+                <div class="msg-body">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
+                  esse.
+                </div>
+                <p class="sender">Me</p>
+              </div>
+              <div class="single-message">
+                <div class="msg-body">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
+                  esse.
+                </div>
+                <p class="sender">Sender</p>
+              </div> -->
+              </div>
+              <form action="" id="msg-form" method="post">
+            <!-- For the sake of security, all Django Post forms must have a csfr token tag -->
+            <!-- {% csrf_token %} -->
+            <textarea name="message" id="message" cols="30" rows="10" placeholder="Enter your message"></textarea>
+
+            <button type="submit">&#10003;</button>
+          </form>
+        </div>
+      </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer%}
+{% endblock %}

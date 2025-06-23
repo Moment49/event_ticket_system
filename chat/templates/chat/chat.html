@@ -70,7 +70,25 @@
            <img  src="{% static 'accounts/images/pexels-blitzboy-1040880.jpg' %}" class="rounded-circle border border-dark" width="35" height="35"/>
         </div>
       </div>
-      <h4 class="welcome-greeting container-fluid" >Meet Others</h4>
+      <h4 class="welcome-greeting container-fluid" >Meet People</h4>
+
+      <div class="container text-start" id="chat-container">
+        <div class="row g-3">
+          {% for room_event in room_events %}
+          <div class="col-sm-12 col-md-6 col-lg-3">
+            <form method="post" id="chat-form">
+              {% csrf_token %}
+              <h3>{{room_event}}</h3>
+              <h5>12 people chatting</h5>
+              <input type="hidden" name="room_event" value="{{room_event}}" />
+              <div class="discussion-details">
+                <p>Join Discussion</p>
+                <button type="submit">Join Discussion</button>
+              </div>
+            </form> 
+          </div>
+          {% endfor %}
+        </div>
     </div>
 
 </div>
