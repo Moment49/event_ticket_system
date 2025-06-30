@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'events.apps.EventsConfig',
     'tickets.apps.TicketsConfig',
+    'chat.apps.ChatConfig',
     'crispy_forms',
     'crispy_bootstrap5',
     'paypal.standard.ipn',
@@ -57,7 +58,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'django.contrib.sites',
-    'chat.apps.ChatConfig',
     'channels'
    
 ]
@@ -96,7 +96,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ticketsphere_project.wsgi.application'
-
 ASGI_APPLICATION = 'ticketsphere_project.asgi.application'
 
 
@@ -232,4 +231,14 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'alert-success',
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
+}
+
+# Channel Layers
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
 }

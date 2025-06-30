@@ -84,7 +84,7 @@
           width: 80%;
           max-width: 500px;
           padding: 2rem;
-          max-height: 80vh;
+          max-height: 90vh;
           background-color: #eef0f2;
           border-radius: 1rem;
           box-shadow: 0px 0px 1rem 0px rgba(0, 0, 0, 0.2);
@@ -114,13 +114,13 @@
           word-wrap: break-word;
         }
          .sent { float: right; }
-        .sent > .msg-body { background-color: #8c00ff; }
+        .sent > .msg-body { background-color:navy; }
         .sender {
           margin-top: 0.25rem;
           font-size: 0.75rem;
         }
         form {
-          margin-top: 1rem;
+         
           display: grid;
           grid-template-columns: auto 2.5rem;
           gap: 0.5rem;
@@ -139,13 +139,27 @@
           -ms-overflow-style: none;
         }
          textarea::-webkit-scrollbar { display: none; }
+         #btn-chat{
+          background: #04092C;
+          box-shadow:1px 2px 1px #eaeaea;
+          color: whitesmoke;
+          width: 100%;
+          padding: 6px 0;
+          font-weight: 400;
+          font-size: 15px;
+          position: relative;
+          border:none;
+          text-decoration: none;
+         }
+         
         </style>
        <div class="page-container">
         <div class="content">
-          <h1 class="fs-6">Welcome to {{room_event}}</h1>
+          <h1 class="fs-6 color-dark bold">ChatRoom : {{room_event}}</h1>
+          <hr class="pt-0 mt-0"/>
           <div class="chats-container" id="chats-container">
             {%for get_message in get_messages%}
-            {% if get_message.sender.lower == username.lower %}
+            {% if get_message.sender.username.lower == username.lower %}
             <div class="single-message sent">
               <div class="msg-body">{{get_message.message}}</div>
               <p class="sender">Me</p>
@@ -154,7 +168,7 @@
             {% else %}
             <div class="single-message">
               <div class="msg-body">{{get_message.message}}</div>
-              <p class="sender">{{get_message.sender}}</p>
+              <p class="sender">{{get_message.sender.username}}</p>
             </div>
             {% endif %}
             {%endfor%}
@@ -204,16 +218,76 @@
               </div>
               <form action="" id="msg-form" method="post">
             <!-- For the sake of security, all Django Post forms must have a csfr token tag -->
-            <!-- {% csrf_token %} -->
+            {% csrf_token %}
             <textarea name="message" id="message" cols="30" rows="10" placeholder="Enter your message"></textarea>
-
-            <button type="submit">&#10003;</button>
+            <button type="submit" id="btn-chat">&#10003;</button>
           </form>
         </div>
       </div>
       </div>
     </div>
 </div>
+<script>
+  const socketURL = `ws://${window.location.host}/ws/messages/{{room_event}}/`;
+  console.log("Establishing socket connecion")
+  const socket = new WebSocket(socketURL)
+
+   //Send message to backend
+   const message_form = document.getElementById('msg-form')
+   const btn_chat = document.getElementById('btn-chat')
+  
+   message_form.addEventListener("submit", function(event){
+    event.preventDefault()
+    console.log("button clicked")
+    let message_sent = document.getElementById('message').value;
+    btn_chat.style.backgroundColor = 'white';
+    btn_chat.style.color = 'black';
+    
+
+    //Send to backend server
+    socket.send(
+      JSON.stringify({
+        message:message_sent,
+        room_event:"{{room_event}}",
+        sender:"{{username}}"
+      })
+    )
+
+   })
+
+    //Recieve Message from backend
+    socket.addEventListener("message", (e) => {
+    const data = JSON.parse(e.data)["message"]
+    
+    let sender = data['sender']
+    let content = data['message']
+
+    if(sender == "{{username}}"){
+      document.getElementById("message").value = ""
+    }
+  
+
+    const chats_div = document.getElementById("chats-container")
+
+    function scrollToBottom(){
+        chats_div.scrollTop = chats_div.scrollHeight;
+    }
+
+    if(sender == "{{username}}"){
+      chats_div.innerHTML += chats_div.innerHTML += `<div class="single-message sent">
+          <div class="msg-body">${content}</div>
+          <p class="sender">Me</p>
+        </div>`;
+      }else {
+        chats_div.innerHTML += `<div class="single-message">
+          <div class="msg-body">${content}</div>
+          <p class="sender">${sender}</p>
+        </div>`;
+    }
+    scrollToBottom();
+
+  });
+</script>
 {% endblock %}
 
 {% block footer%}

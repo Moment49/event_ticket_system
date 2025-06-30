@@ -14,13 +14,14 @@ class RoomEvent(models.Model):
         return f"{self.room_event.name}"
 
 
-class ChatMessage(models.Model):
+class ChatMessages(models.Model):
     """
     Model to represent a chat message in an event room.
     """
     room = models.ForeignKey(RoomEvent, on_delete=models.CASCADE, related_name='chat_messages')
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.sender}"
+        return f"{self.sender} - {self.room}"
