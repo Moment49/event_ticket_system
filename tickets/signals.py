@@ -8,7 +8,6 @@ from events.models import Event
 from tickets.models import Ticket
 from django.core.mail import EmailMessage
 import io
-from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
