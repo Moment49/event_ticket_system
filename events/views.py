@@ -69,16 +69,17 @@ def booked_event(request):
     
     if cache.get(cached_key):
         user_tickets_events = cache.get(cached_key)
-        print("hit the cache")
+    
     else:
         user_tickets_events = Ticket.objects.select_related('event').filter(user=user)
+
         # Get the total number of events based on the tickets purchased
         cache.set(cached_key, user_tickets_events, timeout=60 * 15)
-        print("hit the db")
 
     booked_event_count = user_tickets_events.count()
 
-    return render(request, 'events/booked_events.html', {"booked_event":booked_event_count, "user_tickets_events":user_tickets_events})
+    return render(request, 'events/booked_events.html',
+                   {"booked_event":booked_event_count, "user_tickets_events":user_tickets_events})
 
 
     

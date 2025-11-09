@@ -42,7 +42,7 @@ class UserRegistrationForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['date_of_birth', 'profile_picture']
+        fields = ['date_of_birth', 'profile_picture', 'bio']
 
 class UserForm(forms.ModelForm):
     class Meta:

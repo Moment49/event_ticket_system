@@ -35,6 +35,7 @@ class CustomUser(AbstractUser):
     ROLES = (
         ('USER', 'User'),
         ('ADMIN', 'Admin'))
+    
     role = models.CharField(max_length=20, choices=ROLES, default='USER')
     email = models.CharField(max_length=150, unique=True, null=False, blank=False)
     username = models.CharField(max_length=100, unique=False, null=True, blank=True)
@@ -62,7 +63,7 @@ class UserProfile(models.Model):
     date_of_birth = models.DateField(blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile')
-
+    bio = models.TextField(max_length=500, blank=True)
     def __str__(self):
         return self.user.email
     

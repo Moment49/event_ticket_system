@@ -6,9 +6,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from events.models import Event
 from tickets.models import Ticket
-from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
-from django.template.loader import render_to_string
 import io
 from django.http import FileResponse
 from reportlab.pdfgen import canvas

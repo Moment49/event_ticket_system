@@ -56,237 +56,260 @@
     </div>
 
     <!-- Main Content -->
-    <div id="content" class="bg-light p-3">
-      <div class="content_header_dash container-fluid">
-        <div>
-          <input name="search" type="search" placeholder="Search..." aria-label="Search">
-          <button class="btn btn-outline-dark" type="submit">
+      <div id="content" class="bg-light p-3">
+      <div class="content_header_dash container-fluid d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-0">
+          <input name="search" id="dashboard-search" type="search" placeholder="Search events, venues, tickets..." aria-label="Search" class="form-control form-control-sm" style="width:320px;">
+          <button id="dashboard-search-btn" type="submit" class="btn btn-outline-dark btn-sm">
             <i class="bi bi-search"></i>
           </button>
         </div>
-        <div>
-          <i class="bi bi-bell-fill"></i>
-          <i class="bi bi-envelope"></i>
-           <img  src="{% static 'accounts/images/pexels-blitzboy-1040880.jpg' %}" class="rounded-circle border border-dark" width="35" height="35"/>
+        <div class="d-flex align-items-center gap-3">
+          <div class="notification-icon position-relative">
         </div>
-      </div>
-      <h4 class="welcome-greeting container-fluid" >Chat View</h4>
-        <style>
-          .page-container {
-          background-color: whitesmoke;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          height: 100vh;
-        }
-        .content {
-          width: 80%;
-          max-width: 500px;
-          padding: 2rem;
-          max-height: 90vh;
-          background-color: #eef0f2;
-          border-radius: 1rem;
-          box-shadow: 0px 0px 1rem 0px rgba(0, 0, 0, 0.2);
-          display: grid;
-          grid-template-rows: fit-content auto fit-content;
-        }
-          .chats-container {
-          width: 100%;
-          height: 20rem;
-          overflow-y: scroll;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        }
-        .chats-container::-webkit-scrollbar { display: none; }
-        .single-message {
-          width: fit-content;
-          max-width: 60%;
-          clear: both;
-        }
-        .msg-body {
-          margin-top: 0.25rem;
-          padding: 0.5rem;
-          background-color:#04092C;
-          color: #ffffff;
-          font-size: 1rem;
-          border-radius: 0.25rem;
-          word-wrap: break-word;
-        }
-         .sent { float: right; }
-        .sent > .msg-body { background-color:navy; }
-        .sender {
-          margin-top: 0.25rem;
-          font-size: 0.75rem;
-        }
-        form {
-         
-          display: grid;
-          grid-template-columns: auto 2.5rem;
-          gap: 0.5rem;
-        }
-        textarea {
-          height: 5rem;
-          resize: none;
-          outline: none;
-          border: none;
-          padding: 0.5rem 1rem;
-          background-color: #dadee1;
-          border-radius: 0.5rem;
-          width: 100%;
-          overflow-y: scroll;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        }
-         textarea::-webkit-scrollbar { display: none; }
-         #btn-chat{
-          background: #04092C;
-          box-shadow:1px 2px 1px #eaeaea;
-          color: whitesmoke;
-          width: 100%;
-          padding: 6px 0;
-          font-weight: 400;
-          font-size: 15px;
-          position: relative;
-          border:none;
-          text-decoration: none;
-         }
-         
-        </style>
-       <div class="page-container">
-        <div class="content">
-          <h1 class="fs-6 color-dark bold">ChatRoom : {{room_event}}</h1>
-          <hr class="pt-0 mt-0"/>
-          <div class="chats-container" id="chats-container">
-            {%for get_message in get_messages%}
-            {% if get_message.sender.username.lower == username.lower %}
-            <div class="single-message sent">
-              <div class="msg-body">{{get_message.message}}</div>
-              <p class="sender">Me</p>
-            </div>
-
-            {% else %}
-            <div class="single-message">
-              <div class="msg-body">{{get_message.message}}</div>
-              <p class="sender">{{get_message.sender.username}}</p>
-            </div>
-            {% endif %}
-            {%endfor%}
-
-            <!-- <div class="single-message sent">
-                <div class="msg-body">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
-                  esse.
-                </div>
-                <p class="sender">Me</p>
-              </div>
-              <div class="single-message">
-                <div class="msg-body">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
-                  esse.
-                </div>
-                <p class="sender">Sender</p>
-              </div>
-              <div class="single-message sent">
-                <div class="msg-body">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
-                  esse.
-                </div>
-                <p class="sender">Me</p>
-              </div>
-              <div class="single-message">
-                <div class="msg-body">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
-                  esse.
-                </div>
-                <p class="sender">Sender</p>
-              </div>
-              <div class="single-message sent">
-                <div class="msg-body">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
-                  esse.
-                </div>
-                <p class="sender">Me</p>
-              </div>
-              <div class="single-message">
-                <div class="msg-body">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores,
-                  esse.
-                </div>
-                <p class="sender">Sender</p>
-              </div> -->
-              </div>
-              <form action="" id="msg-form" method="post">
-            <!-- For the sake of security, all Django Post forms must have a csfr token tag -->
-            {% csrf_token %}
-            <textarea name="message" id="message" cols="30" rows="10" placeholder="Enter your message"></textarea>
-            <button type="submit" id="btn-chat">&#10003;</button>
-          </form>
+        <div class="profile-mini d-flex align-items-center gap-2">
+          <img src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}{% static 'accounts/images/avatar.jpg' %}{% endif %}" alt="{{ user.get_full_name }}" class="rounded-circle" width="36" height="36">
+          <div class="d-none d-md-block">
+            <div style="font-weight:700;font-size:14px;">{{ user.first_name|default:user.username }}</div>
+            <div class="text-muted" style="font-size:12px;">{{ user.email }}</div>
+          </div>
         </div>
-      </div>
       </div>
     </div>
-</div>
+      
+      <h4 class="welcome-greeting container-fluid" >Chat View</h4>
+        <style>
+          /* Modern, minimal chat styles */
+          .page-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding: 2rem 0;
+            box-sizing: border-box;
+          }
+          .chat-card {
+            width: 100%;
+            max-width: 920px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(16,24,40,0.06);
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            height: calc(100vh - 200px);
+          }
+          .chat-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+          }
+          .chat-header .title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #0f172a;
+          }
+          .chat-body {
+            padding: 1rem;
+            background: linear-gradient(180deg,#fbfdff 0%, #f8fafc 100%);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+          }
+          .msg {
+            max-width: 76%;
+            display: inline-flex;
+            flex-direction: column;
+            gap: 0.35rem;
+          }
+          .msg .bubble {
+            padding: 0.6rem 0.9rem;
+            border-radius: 12px;
+            font-size: 0.98rem;
+            line-height: 1.3;
+            box-shadow: 0 2px 6px rgba(2,6,23,0.04);
+            word-break: break-word;
+          }
+          .msg.sent {
+            align-self: flex-end;
+            text-align: right;
+          }
+          .msg.sent .bubble {
+            background: linear-gradient(180deg,#2563eb 0%, #1d4ed8 100%);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+          }
+          .msg.received {
+            align-self: flex-start;
+          }
+          .msg.received .bubble {
+            background: #f1f5f9;
+            color: #0f172a;
+            border-bottom-left-radius: 4px;
+          }
+          .msg .meta {
+            font-size: 0.78rem;
+            color: #64748b;
+          }
+          .chat-composer {
+            padding: 0.85rem;
+            border-top: 1px solid #f1f5f9;
+            background: #ffffff;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+          }
+          .chat-composer textarea {
+            flex: 1;
+            min-height: 48px;
+            max-height: 140px;
+            resize: vertical;
+            padding: 0.65rem 0.85rem;
+            border-radius: 10px;
+            border: 1px solid #e6edf3;
+            background: #fbfdff;
+            font-size: 0.98rem;
+            outline: none;
+          }
+          .chat-composer button.send-btn {
+            background: #0f172a;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 0.9rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .chat-composer button.send-btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+          }
+          @media (max-width: 720px) {
+            .chat-card { height: calc(100vh - 120px); }
+            .chat-body { padding: 0.75rem; }
+          }
+        </style>
+
+       <div class="page-container">
+        <div class="chat-card" role="region" aria-label="Chat room">
+          <div class="chat-header">
+            <div class="title">Chat • <span class="text-muted">{{ room_event }}</span></div>
+          </div>
+
+          <div class="chat-body" id="chats-container">
+            {% for get_message in get_messages %}
+              {% if get_message.sender.username.lower == username.lower %}
+                <div class="msg sent">
+                  <div class="bubble">{{ get_message.message }}</div>
+                  <div class="meta">Me</div>
+                </div>
+              {% else %}
+                <div class="msg received">
+                  <div class="bubble">{{ get_message.message }}</div>
+                  <div class="meta">{{ get_message.sender.username }}</div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <div class="chat-composer">
+            <form id="msg-form" autocomplete="off">
+              {% csrf_token %}
+              <textarea id="message" name="message" placeholder="Write a message"></textarea>
+              <button type="submit" id="btn-chat" class="send-btn" aria-label="Send message">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
 <script>
-  const socketURL = `ws://${window.location.host}/ws/messages/{{room_event}}/`;
-  console.log("Establishing socket connecion")
-  const socket = new WebSocket(socketURL)
+  // Choose appropriate WS protocol
+  const wsScheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+  const socketURL = `${wsScheme}://${window.location.host}/ws/messages/{{room_event}}/`;
+  console.log('Connecting to', socketURL);
+  const socket = new WebSocket(socketURL);
 
-   //Send message to backend
-   const message_form = document.getElementById('msg-form')
-   const btn_chat = document.getElementById('btn-chat')
-  
-   message_form.addEventListener("submit", function(event){
-    event.preventDefault()
-    console.log("button clicked")
-    let message_sent = document.getElementById('message').value;
-    btn_chat.style.backgroundColor = 'white';
-    btn_chat.style.color = 'black';
-    
+  const messageForm = document.getElementById('msg-form');
+  const messageInput = document.getElementById('message');
+  const btnChat = document.getElementById('btn-chat');
+  const chatsContainer = document.getElementById('chats-container');
 
-    //Send to backend server
-    socket.send(
-      JSON.stringify({
-        message:message_sent,
-        room_event:"{{room_event}}",
-        sender:"{{username}}"
-      })
-    )
+  function scrollToBottom() {
+    chatsContainer.scrollTop = chatsContainer.scrollHeight;
+  }
 
-   })
+  // Ensure initial scroll to bottom
+  setTimeout(scrollToBottom, 50);
 
-    //Recieve Message from backend
-    socket.addEventListener("message", (e) => {
-    const data = JSON.parse(e.data)["message"]
-    
-    let sender = data['sender']
-    let content = data['message']
-
-    if(sender == "{{username}}"){
-      document.getElementById("message").value = ""
-    }
-  
-
-    const chats_div = document.getElementById("chats-container")
-
-    function scrollToBottom(){
-        chats_div.scrollTop = chats_div.scrollHeight;
-    }
-
-    if(sender == "{{username}}"){
-      chats_div.innerHTML += chats_div.innerHTML += `<div class="single-message sent">
-          <div class="msg-body">${content}</div>
-          <p class="sender">Me</p>
-        </div>`;
-      }else {
-        chats_div.innerHTML += `<div class="single-message">
-          <div class="msg-body">${content}</div>
-          <p class="sender">${sender}</p>
-        </div>`;
-    }
+  // Safe append message (prevents XSS by using textContent)
+  function appendMessage(content, senderIsMe, senderName) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'msg ' + (senderIsMe ? 'sent' : 'received');
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = content;
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    meta.textContent = senderIsMe ? 'Me' : senderName;
+    wrapper.appendChild(bubble);
+    wrapper.appendChild(meta);
+    chatsContainer.appendChild(wrapper);
     scrollToBottom();
+  }
 
+  // Submit handler
+  messageForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const text = messageInput.value.trim();
+    if (!text) return;
+    // send via websocket
+    const payload = JSON.stringify({
+      message: text,
+      room_event: '{{ room_event }}',
+      sender: '{{ username }}'
+    });
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(payload);
+      // optimistic UI append
+      appendMessage(text, true, '{{ username }}');
+      messageInput.value = '';
+      messageInput.focus();
+    } else {
+      console.warn('Socket not open');
+    }
   });
+
+  // Enter to send (Shift+Enter for newline)
+  messageInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      messageForm.requestSubmit();
+    }
+  });
+
+  // Receive messages
+  socket.addEventListener('message', function(event) {
+    try {
+      const payload = JSON.parse(event.data);
+      const data = payload.message || payload;
+      const sender = data.sender;
+      const content = data.message;
+      // If the message came from me, we've already shown optimistic UI; skip double-append
+      if (sender === '{{ username }}') return;
+      appendMessage(content, false, sender);
+    } catch (err) {
+      console.error('Failed to parse socket message', err);
+    }
+  });
+
+  socket.addEventListener('open', () => console.log('Socket open'));
+  socket.addEventListener('close', () => console.log('Socket closed'));
+  socket.addEventListener('error', (e) => console.error('Socket error', e));
 </script>
 {% endblock %}
 

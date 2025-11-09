@@ -59,41 +59,161 @@
 
     <!-- Main Content -->
     <div id="content" class="bg-light p-3">
-      <div class="content_header_dash container-fluid">
-        <div>
-          <input name="search" type="search" placeholder="Search..." aria-label="Search">
-          <button class="btn btn-outline-dark" type="submit">
+      <div class="content_header_dash container-fluid d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-0">
+          <input name="search" id="dashboard-search" type="search" placeholder="Search events, venues, tickets..." aria-label="Search" class="form-control form-control-sm" style="width:320px;">
+          <button id="dashboard-search-btn" type="submit" class="btn btn-outline-dark btn-sm">
             <i class="bi bi-search"></i>
           </button>
         </div>
-        <div>
-          <i class="bi bi-bell-fill"></i>
-          <i class="bi bi-envelope"></i>
-           <img  src="{% static 'accounts/images/pexels-blitzboy-1040880.jpg' %}" class="rounded-circle border border-dark" width="35" height="35"/>
+        <div class="d-flex align-items-center gap-3">
+          <div class="notification-icon position-relative">
+        </div>
+        <div class="profile-mini d-flex align-items-center gap-2">
+          <img src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}{% static 'accounts/images/avatar.jpg' %}{% endif %}" alt="{{ user.get_full_name }}" class="rounded-circle" width="36" height="36">
+          <div class="d-none d-md-block">
+            <div style="font-weight:700;font-size:14px;">{{ user.first_name|default:user.username }}</div>
+            <div class="text-muted" style="font-size:12px;">{{ user.email }}</div>
+          </div>
         </div>
       </div>
+    </div>
+
+    
       <h4 class="welcome-greeting container-fluid" >Profile</h4>
 
     <div class="container">
-    <div class="edit_main text-center">
-        <div class="profile_img">
-            {% if user.profile.profile_picture %}
-            <img src="{{ user.profile.profile_picture.url }}"  class="rounded-circle" width="150" height="150" alt="no image"/>
-            {% else %}
-            <img  src="{% static 'accounts/images/avatar.jpg' %}" class="rounded-circle" width="150" height="150"/>
-            {% endif %}
-        </div>
-        <div class="profile_detail">
-            <p><b>Username</b>: {{user.username}}</p>
-            <p><b>Email</b>: {{user.email}}</p>
-            <p><b>Age</b>: {{user_profile.age}}years</p>
-            <p><b>Date of Birth</b>: {{user_profile.date_of_birth}}</p>
-            <p><b>Role</b>: {{user.role}}</p>
-        </div> 
-        <a href="{% url 'edit_profile' username=user.username%}"  class="btn btn-secondary">Edit profile</a>
-    </div>  
+      <style>
+        /* Profile page styles */
+        .profile-hero {
+          display: grid;
+          grid-template-columns: 220px 1fr;
+          gap: 1.5rem;
+          align-items: center;
+          background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+          padding: 1.6rem;
+          border-radius: 12px;
+          box-shadow: 0 8px 30px rgba(2,6,23,0.06);
+          margin-bottom: 1.25rem;
+        }
+        .profile-avatar {
+          width: 200px;
+          height: 200px;
+          border-radius: 14px;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg,#eef2ff, #fff);
+          border: 1px solid #eef2ff;
+        }
+        .profile-avatar img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 10px;
+        }
+        .profile-main h2 {
+          margin: 0 0 0.25rem 0;
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: #0f172a;
+        }
+        .profile-main p.role {
+          margin: 0;
+          color: #475569;
+          font-weight: 600;
+        }
+        .profile-actions { display:flex; gap:0.5rem; margin-top:0.9rem; }
+        .profile-actions .btn-primary {
+          background: linear-gradient(180deg,#2563eb 0%, #1d4ed8 100%);
+          border: none;
+          padding: 0.6rem 1rem;
+          border-radius: 8px;
+          color: #fff;
+          font-weight:600;
+        }
+        .profile-actions .btn-outline {
+          background: transparent;
+          border: 1px solid #e2e8f0;
+          color: #0f172a;
+          padding: 0.55rem 0.95rem;
+          border-radius: 8px;
+        }
+        .profile-stats { display:flex; gap:1rem; margin-left: auto; }
+        .stat { background:#fff; padding:0.7rem 1rem; border-radius:10px; text-align:center; box-shadow:0 4px 18px rgba(2,6,23,0.03);} 
+        .stat .num { font-weight:700; font-size:1.1rem; color:#0f172a; }
+        .profile-card { background:#fff; padding:1.25rem; border-radius:12px; box-shadow:0 8px 30px rgba(2,6,23,0.04); }
+        .profile-grid { display:grid; grid-template-columns: repeat(2,1fr); gap:1rem; }
+        .profile-grid .item { padding:0.8rem; border-radius:8px; background: #fbfdff; border:1px solid #f1f5f9; }
+        .label { color:#475569; font-weight:600; font-size:0.95rem; }
+        .value { color:#0f172a; font-size:0.98rem; margin-top:0.35rem; }
+        @media (max-width: 800px) {
+          .profile-hero { grid-template-columns: 1fr; text-align:center; }
+          .profile-avatar { width: 160px; height:160px; margin:0 auto; }
+          .profile-stats { justify-content:center; margin-top:0.6rem; }
+          .profile-grid { grid-template-columns: 1fr; }
+        }
+      </style>
 
-</div>
+      <section class="profile-hero">
+        <div class="profile-avatar">
+          {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.get_full_name }}">
+          {% else %}
+            <img src="{% static 'accounts/images/avatar.jpg' %}" alt="{{ user.get_full_name }}">
+          {% endif %}
+        </div>
+
+        <div class="profile-main">
+          <h2>{{ user.first_name|default:user.username }} {% if user.last_name %}{{ user.last_name }}{% endif %}</h2>
+          <p class="role">{{ user.role|default:'Attendee' }}</p>
+          <p class="text-muted mt-2">{{ user.profile.bio|default:'This user has not added a bio yet.' }}</p>
+          <div class="profile-actions">
+            <a href="{% url 'edit_profile' username=user.username %}" class="btn btn-primary">Edit Profile</a>
+            <a href="{% url 'logout' %}" class="btn btn-outline">Logout</a>
+          </div>
+        </div>
+
+        <div class="profile-stats">
+          <div class="stat">
+            <div class="num">{{ user.tickets.count|default:5 }}</div>
+            <div class="muted">Tickets</div>
+          </div>
+          <div class="stat">
+            <div class="num">{{ user.booked_events.count|default:5 }}</div>
+            <div class="muted">Events</div>
+          </div>
+          <div class="stat">
+            <div class="num">{{ user_profile.age|default:'--' }}</div>
+            <div class="muted">Age</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="profile-card">
+        <h4 style="margin-top:0; margin-bottom:0.8rem;">Personal Details</h4>
+        <div class="profile-grid">
+          <div class="item">
+            <div class="label">Username</div>
+            <div class="value">{{ user.username }}</div>
+          </div>
+          <div class="item">
+            <div class="label">Email</div>
+            <div class="value">{{ user.email }}</div>
+          </div>
+          <div class="item">
+            <div class="label">Date of Birth</div>
+            <div class="value">{{ user_profile.date_of_birth|default:'N/A' }}</div>
+          </div>
+          <div class="item">
+            <div class="label">Role</div>
+            <div class="value">{{ user.role|default:'Attendee' }}</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
     </div>
     </div>
   </div>

@@ -32,12 +32,8 @@
           <span class="menu-text">Meet others</span>
 
         <a href="#" class="nav-link text-light">
-          <i class="bi bi-envelope"></i>
-          <span class="menu-text">Notifications</span>
-        </a>
-        <a href="#" class="nav-link text-light">
         <i class="bi bi-chat-dots"></i>
-          <span class="menu-text">Chat support</span>
+          <span class="menu-text">AI Chat support</span>
         </a>
         <div>
             <a href="{% url 'profile' %}" class="nav-link text-light">
@@ -73,7 +69,27 @@
       </div>
       <h4 class="welcome-greeting container-fluid" >Event details</h4>
       <div class="container">
-        <div class="container text-center">
+            <div class="event-main-modern card p-4 mb-4 mx-auto" style="max-width: 600px;">
+            <div class="event-image-modern mb-4">
+              <img src="{{ event.featured_photo.url }}" alt="{{ event.name }}" class="img-fluid rounded shadow-sm" style="max-height: 340px; object-fit: cover; width: 100%;">
+            </div>
+            <h2 class="event-title-modern mb-3">{{ event.name }}</h2>
+            <div class="event-info-modern mb-3">
+              <div><i class="bi bi-geo-alt"></i> <b>Venue:</b> {{ event.venue }}</div>
+              <div><i class="bi bi-calendar-event"></i> <b>Date:</b> {{ event.date }}</div>
+              <div><i class="bi bi-clock"></i> <b>Time:</b> {{ event.time }}</div>
+              <div><i class="bi bi-cash"></i> <b>Price:</b> ${{ event.price }}</div>
+            </div>
+            <div class="event-description-modern mb-4">
+              <b>Description:</b>
+              <p class="text-muted">{{ event.description }}</p>
+            </div>
+            <div>
+              {{ form.render }}
+            </div>
+          </div>
+
+        <!-- <div class="container text-center">
           <img src="{{ event.featured_photo.url }}"  width="500" alt="...">
           <div class="event_detail pt-4 pb-4">
           <h6><b>Title</b>: {{event.name}}</h6>
@@ -85,7 +101,7 @@
           
           {{form.render}}
         </div>
-      </div>
+      </div> -->
     </div>  
   </div>
 {% endblock%}

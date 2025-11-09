@@ -31,13 +31,9 @@
          <i class="bi bi-people-fill"></i>
           <span class="menu-text">Meet others</span>
 
-        <a href="#" class="nav-link text-light">
-          <i class="bi bi-envelope"></i>
-          <span class="menu-text">Notifications</span>
-        </a>
          <a href="#" class="nav-link text-light">
          <i class="bi bi-chat-dots"></i>
-          <span class="menu-text">Chat support</span>
+          <span class="menu-text">AI Chat support</span>
         </a>
         <div>
             <a href="{% url 'profile' %}" class="nav-link  text-light">
@@ -58,21 +54,28 @@
     </div>
 
     <!-- Main Content -->
-    <div id="content" class="container pt-4">
-       <div class="content_header_dash container-fluid">
-        <div>
-          <input name="search" type="search" placeholder="Search..." aria-label="Search">
-          <button class="btn btn-outline-dark" type="submit">
+    <div id="content" class="bg-light p-3">
+      <div class="content_header_dash container-fluid d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-0">
+          <input name="search" id="dashboard-search" type="search" placeholder="Search events, venues, tickets..." aria-label="Search" class="form-control form-control-sm" style="width:320px;">
+          <button id="dashboard-search-btn" type="submit" class="btn btn-outline-dark btn-sm">
             <i class="bi bi-search"></i>
           </button>
         </div>
-        <div>
-          <i class="bi bi-bell-fill"></i>
-          <i class="bi bi-envelope"></i>
-           <img  src="{% static 'accounts/images/pexels-blitzboy-1040880.jpg' %}" class="rounded-circle border border-dark" width="35" height="35"/>
+        <div class="d-flex align-items-center gap-3">
+          <div class="notification-icon position-relative">
+        </div>
+        <div class="profile-mini d-flex align-items-center gap-2">
+          <img src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}{% static 'accounts/images/avatar.jpg' %}{% endif %}" alt="{{ user.get_full_name }}" class="rounded-circle" width="36" height="36">
+          <div class="d-none d-md-block">
+            <div style="font-weight:700;font-size:14px;">{{ user.first_name|default:user.username }}</div>
+            <div class="text-muted" style="font-size:12px;">{{ user.email }}</div>
+          </div>
         </div>
       </div>
-      <h4 class="welcome-greeting container-fluid" >Purchased Tickets</h4>
+    </div>
+
+    <h4 class="welcome-greeting container-fluid" >Purchased Tickets</h4>
     <h1 class="text-primary">Total Number of Purchased Tickets: <b class="text-primary">{{tickets_count}}</b></h1>
     <table class="table table-striped">
         <thead>

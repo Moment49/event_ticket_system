@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Auto-close the alert after 5 seconds
             setTimeout(() => {
                 bsAlert.close();
-            }, 50000);
+            }, 3000);
         }
     });
 

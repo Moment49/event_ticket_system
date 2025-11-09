@@ -24,11 +24,11 @@ CustomUser = get_user_model()
 
 # Create your views here.
 
-
 def home(request):
     event_ = Event.objects.all().first()
-    print(event_)
-    return render(request, 'accounts/home.html', {"event_":event_})
+    events = Event.objects.all()
+    
+    return render(request, 'accounts/home.html', {"event_":event_, "events":events})
 
 def activateEmail(request, user, to_email):
     subject = 'Activate your account'
@@ -104,12 +104,12 @@ def admin_dashboard_view(request):
     users = CustomUser.objects.all()
     return render(request, 'accounts/dashboard/admin_dashboard_view.html', {"users":users})
 
-# @cache_page(5)
+
 @login_required
 @user_passes_test(is_regular_user)
 def user_dashboard_view(request):
     events = Event.objects.all()
-    return render(request, 'accounts/dashboard/user_dashboard_view.html', {"events":events})
+    return render(request, 'accounts/dashboard/user_dashboard_view_copy.html', {"events":events})
 
 
 def login_view(request):
@@ -157,6 +157,7 @@ def profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
     return render(request, 'accounts/profile.html', {"user_profile":user_profile})
 
+@login_required
 def edit_profile(request, username):
     user = CustomUser.objects.get(username=username)
     print(username)
@@ -169,12 +170,14 @@ def edit_profile(request, username):
         if form.is_valid() and user_form.is_valid():
             date_of_birth = form.cleaned_data.get('date_of_birth')
             profile_picture = form.cleaned_data.get('profile_picture')
+            bio = form.cleaned_data.get('bio')
             first_name = user_form.cleaned_data.get('first_name')
             last_name = user_form.cleaned_data.get('last_name')
             username = user_form.cleaned_data.get('username')
 
             user_profile.date_of_birth = date_of_birth
             user_profile.profile_picture = profile_picture
+            user_profile.bio = bio
             user.first_name = first_name
             user.last_name = last_name
             user.username = username
@@ -186,7 +189,10 @@ def edit_profile(request, username):
     else:
         form = ProfileForm({
             "date_of_birth":user_profile.date_of_birth,
-            "profile_picture":user_profile.profile_picture})
+            "profile_picture":user_profile.profile_picture,
+            "bio":user_profile.bio
+            })
+            
         user_form = UserForm({
             "first_name":user.first_name,
             "last_name":user.last_name,

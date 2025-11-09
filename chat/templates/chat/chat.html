@@ -1,10 +1,15 @@
-{% extends 'accounts/base.html'%}
+<!--  -->
+
+
+{% extends 'accounts/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block title%}MeetOthers {% endblock %}
+{% block title%}Purchased Tickets {% endblock %}
 
+{% block header %}
+{% endblock %}
 
-{% block content %}
+{% block content%}
 <div class="wrapper">
     <!-- Sidebar -->
     <div id="sidebar" class="text-light collapsed d-flex flex-column">
@@ -13,7 +18,7 @@
       </a>
       <button class="mb-3 mt-3" id="toggleSidebar">☰</button>
       <nav class="nav flex-column">
-        <a href="{% url 'user_dashboard_view' %}" class="nav-link  text-light">
+        <a href="{% url 'user_dashboard_view' %}" class="nav-link text-light">
           <i class="bi bi-house"></i>
           <span class="menu-text">Dashboard</span>
         </a>
@@ -30,7 +35,7 @@
           <span class="menu-text">Meet others</span>
 
         <a href="#" class="nav-link text-light">
-          <i class="bi bi-envelope"></i>
+          <i class="bi bi-bell"></i>
           <span class="menu-text">Notifications</span>
         </a>
          <a href="#" class="nav-link text-light">
@@ -38,8 +43,8 @@
           <span class="menu-text">Chat support</span>
         </a>
         <div>
-         <a href="{% url 'profile' %}" class="nav-link text-light">
-          {% if user.profile.profile_picture %}
+            <a href="{% url 'profile' %}" class="nav-link  text-light">
+            {% if user.profile.profile_picture %}
             <img src="{{ user.profile.profile_picture.url }}"  class="rounded-circle" width="30" height="30" alt="no image"/>
             {% else %}
             <img  src="{% static 'accounts/images/avatar.jpg' %}" class="rounded-circle" width="30" height="30"/>
@@ -57,25 +62,31 @@
 
     <!-- Main Content -->
     <div id="content" class="bg-light p-3">
-      <div class="content_header_dash container-fluid">
-        <div>
-          <input name="search" type="search" placeholder="Search..." aria-label="Search">
-          <button class="btn btn-outline-dark" type="submit">
+      <div class="content_header_dash container-fluid d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-0">
+          <input name="search" id="dashboard-search" type="search" placeholder="Search events, venues, tickets..." aria-label="Search" class="form-control form-control-sm" style="width:320px;">
+          <button id="dashboard-search-btn" type="submit" class="btn btn-outline-dark btn-sm">
             <i class="bi bi-search"></i>
           </button>
         </div>
-        <div>
-          <i class="bi bi-bell-fill"></i>
-          <i class="bi bi-envelope"></i>
-           <img  src="{% static 'accounts/images/pexels-blitzboy-1040880.jpg' %}" class="rounded-circle border border-dark" width="35" height="35"/>
+        <div class="d-flex align-items-center gap-3">
+          <div class="notification-icon position-relative">
+        </div>
+        <div class="profile-mini d-flex align-items-center gap-2">
+          <img src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}{% static 'accounts/images/avatar.jpg' %}{% endif %}" alt="{{ user.get_full_name }}" class="rounded-circle" width="36" height="36">
+          <div class="d-none d-md-block">
+            <div style="font-weight:700;font-size:14px;">{{ user.first_name|default:user.username }}</div>
+            <div class="text-muted" style="font-size:12px;">{{ user.email }}</div>
+          </div>
         </div>
       </div>
-      <h4 class="welcome-greeting container-fluid" >Meet People</h4>
+    </div>
 
-      <div class="container text-start" id="chat-container">
+    <h4 class="welcome-greeting container-fluid" >Meet People</h4>
+    <div class="container text-start" id="chat-container">
         <div class="row g-3">
-          {% for room_event in room_events %}
-          <div class="col-sm-12 col-md-6 col-lg-3">
+          {% for room_event in room_events|slice:":6"  %}
+          <div class="col-sm-12 col-md-6 col-lg-4">
             <form method="post" id="chat-form">
               {% csrf_token %}
               <h3>{{room_event}}</h3>
@@ -88,11 +99,15 @@
             </form> 
           </div>
           {% endfor %}
-        </div>
-    </div>
-
+        </div>  
 </div>
-{% endblock %}
+</div>
+{% endblock%}
+
 
 {% block footer%}
 {% endblock %}
+
+
+
+

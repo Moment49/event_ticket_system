@@ -75,89 +75,33 @@
         </div>    
       
     </section>
-
-    <section class="feature-events" id="trending">
-        <div class="container-fluid">
-            <div class="top-row">
-                <div>
-                    <h2 class="fs-3">Top Picks Near You</h2>
-                </div>
-                <div>
-                    <button><i class="fa-solid fa-filter"></i>Filter</button>
-                </div>
+<!-- Update the Top Picks section HTML -->
+<section class="top-picks-section">
+  <div class="container">
+    <div class="top-picks-header">
+      <h2>Top Picks Near You</h2>
+      	<hr class="my-4">
+    </div>
+    
+    <div class="top-picks-grid">
+      {% for event in events|slice:"6" %}
+        <div class="top-pick-card">
+          <img src="{{ event.featured_photo.url }}" alt="{{ event.name }}" class="top-pick-image">
+          <div class="top-pick-content">
+            <h3 class="top-pick-title">{{ event.name }}</h3>
+            <div class="top-pick-meta">
+              <span><i class="bi bi-calendar"></i> {{ event.date }}</span>
+              <span><i class="bi bi-geo-alt"></i> {{ event.venue }}</span>
             </div>
-            <hr class="mb-4"/>
-            <div class="row justify-content-center align-items-center gy-4">
-                <div class="col-sm-12 col-md-6 col-lg-4" id="top-feature">
-                    <div class="bg-secondary text-light d-flex justify-content-between" id="inner-top-feature">
-                        <img src="{% static 'accounts/images/pexels-bertellifotografia-2608516.jpg'%}" class="img-fluid feature-img" alt="no-image"/>
-                        <img src="{% static 'accounts/images/camera.jpg'%}" class="img-fluid hover-image feature-img"  alt="no-image"/>
-                        <div class="align-self-center">
-                            <h3>Future of AI</h3>
-                            <p>Orange County Fair - Admission
-                                Orange County Fair and Event Center</p>
-                        </div>
-                    </div> 
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4" id="top-feature">
-                    <div class="bg-secondary text-light d-flex justify-content-between" id="inner-top-feature">
-                        <img src="{% static 'accounts/images/pexels-shkrabaanthony-5475779.jpg'%}"  class="img-fluid feature-img"  alt="no-image"/>
-                        <img src="{% static 'accounts/images/camera.jpg'%}" class="img-fluid hover-image feature-img" alt="no-image"/>
-                        <div class="align-self-center">
-                            <h3>Building a future in today's technology</h3>
-                            <p>Audien (21+ Event)
-                                AYU Dayclub</p>
-                        </div>
-                    </div> 
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4" id="top-feature">
-                    <div class="bg-secondary text-light d-flex justify-content-between" id="inner-top-feature">
-                        <img src="{% static 'accounts/images/pexels-bertellifotografia-2608516.jpg'%}" class="img-fluid feature-img" alt="no-image"/>
-                        <img src="{% static 'accounts/images/camera.jpg'%}" class="img-fluid hover-image feature-img" alt="no-image"/>
-                        <div class="align-self-center">
-                            <h3>Future of AI</h3>
-                            <p>Orange County Fair - Admission
-                                Orange County Fair and Event Center</p>
-                        </div>
-                    </div> 
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4" id="top-feature">
-                    <div class="bg-secondary text-light d-flex justify-content-between" id="inner-top-feature">
-                        <img src="{% static 'accounts/images/pexels-bertellifotografia-2608516.jpg'%}" class="img-fluid feature-img" alt="no-image"/>
-                        <img src="{% static 'accounts/images/camera.jpg'%}" class="img-fluid hover-image feature-img" alt="no-image"/>
-                        <div class="align-self-center">
-                            <h3>Future of AI</h3>
-                            <p>Orange County Fair - Admission
-                                Orange County Fair and Event Center</p>
-                        </div>
-                    </div> 
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4" id="top-feature">
-                    <div class="bg-secondary text-light d-flex justify-content-between" id="inner-top-feature">
-                        <img src="{% static 'accounts/images/pexels-bertellifotografia-2608516.jpg'%}" class="img-fluid feature-img" alt="no-image"/>
-                        <img src="{% static 'accounts/images/camera.jpg'%}" class="img-fluid hover-image feature-img" alt="no-image"/>
-                        <div class="align-self-center">
-                            <h3>Future of AI</h3>
-                            <p>Orange County Fair - Admission
-                                Orange County Fair and Event Center</p>
-                        </div>
-                    </div> 
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4" id="top-feature">
-                    <div class="bg-secondary text-light d-flex justify-content-between" id="inner-top-feature">
-                        <img src="{% static 'accounts/images/pexels-bertellifotografia-2608516.jpg'%}" class="img-fluid feature-img" alt="no-image"/>
-                        <img src="{% static 'accounts/images/camera.jpg'%}" class="img-fluid hover-image feature-img" alt="no-image"/>
-                        <div class="align-self-center">
-                            <h3>Future of AI</h3>
-                            <p>Orange County Fair - Admission
-                                Orange County Fair and Event Center</p>
-                        </div>
-                    </div> 
-                </div>
-                
-            </div>     
+            <div class="top-pick-price">${{ event.price }}</div>
+            <a href="{% url 'event_detail' event.event_id %}" class="top-pick-button">View Details</a>
+          </div>
         </div>
-    </section>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
 </div>
 
 <!-- Contact Us -->
