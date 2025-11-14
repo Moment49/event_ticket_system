@@ -69,7 +69,7 @@
         <div class="d-flex align-items-center gap-3">
           <div class="notification-icon position-relative">
         </div>
-        <div class="profile-mini d-flex align-items-center gap-2">
+        <div class="profile-mini d-none d-sm-flex d-flex align-items-center gap-2">
           <img src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}{% static 'accounts/images/avatar.jpg' %}{% endif %}" alt="{{ user.get_full_name }}" class="rounded-circle" width="36" height="36">
           <div class="d-none d-md-block">
             <div style="font-weight:700;font-size:14px;">{{ user.first_name|default:user.username }}</div>
@@ -80,7 +80,7 @@
     </div>
 
     
-      <h4 class="welcome-greeting container-fluid" >Profile</h4>
+    <h4 class="welcome-greeting container-fluid" >Profile</h4>
 
     <div class="container">
       <style>
@@ -170,7 +170,7 @@
           <p class="role">{{ user.role|default:'Attendee' }}</p>
           <p class="text-muted mt-2">{{ user.profile.bio|default:'This user has not added a bio yet.' }}</p>
           <div class="profile-actions">
-            <a href="{% url 'edit_profile' username=user.username %}" class="btn btn-primary">Edit Profile</a>
+            <a href="{% url 'edit_profile' email=user.email %}" class="btn btn-primary">Edit Profile</a>
             <a href="{% url 'logout' %}" class="btn btn-outline">Logout</a>
           </div>
         </div>

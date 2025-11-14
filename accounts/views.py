@@ -3,26 +3,23 @@ from .forms import UserRegistrationForm, ProfileForm, UserForm
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from accounts.token import account_activation_token
-from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate, logout
 from accounts.models import UserProfile
 from events.models import Event
 from django.views.decorators.cache import cache_page
-from datetime import datetime
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from django.contrib.messages.views import SuccessMessageMixin
+from .tasks import send_account_activation_email
 
 
 CustomUser = get_user_model()
 
-# Create your views here.
 
 def home(request):
     event_ = Event.objects.all().first()
@@ -30,32 +27,19 @@ def home(request):
     
     return render(request, 'accounts/home.html', {"event_":event_, "events":events})
 
-def activateEmail(request, user, to_email):
-    subject = 'Activate your account'
-    message = render_to_string(
-        'accounts/activate_email_account.html',
-        context={
-            'user': user.first_name,
-            'domain': get_current_site(request).domain,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': account_activation_token.make_token(user),
-            'protocol': 'https' if request.is_secure() else 'http'
-        }
-    )
-
-    email = EmailMessage(subject, message, to=[to_email])
-    return email
 
 
 def account_activation_sent(request):
     return render(request, 'accounts/account_activation_sent.html')
 
-def activate(request, uidb64, token):
+
+def activate_account(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = CustomUser.objects.get(pk=uid)
-    except:
-        user = None
+    except CustomUser.DoesNotExist:
+        raise ValueError("User does not exist")
+    
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
@@ -63,6 +47,8 @@ def activate(request, uidb64, token):
         messages.success(request, 'Thank you for your email confirmation. Now you can login to your account')
         return redirect('login')
     else:
+        # Remove the user from the database if activation link is invalid
+        user.delete()
         messages.error(request, 'Activation link is invalid')
 
     return redirect('home')
@@ -74,21 +60,37 @@ def register(request):
         form = UserRegistrationForm(request.POST)  
         if form.is_valid():
             user = form.save(commit=False)
+
             # Set the user as inactivate until after verification
-            user.is_active = True
+            user.is_active = False
+
             # Save the user
             user.save()
            
-            email = activateEmail(request, user, form.cleaned_data.get('email'))
-            
-            if email.send():
-                # send the email and return the user to
-                return redirect("account_activation_sent")
-            else:
-                messages.error(request, f'Problem sending email to {user.email}, check if you typed it correctly.')
+            #Email message context to be rendered
+            message = render_to_string(
+            'accounts/activate_email_account.html',
+            context={
+                'user': user.first_name,
+                'domain': get_current_site(request).domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+                'protocol': 'https' if request.is_secure() else 'http'
+            })  
+           
+            # Data to be queued - message, subject, to_email
+            data = {"email_body":message, "email_subject":"Activate your account", 'to_email':form.cleaned_data.get('email')}
+
+            # Send email using celery tasks
+            # Ensure that user is created before sending the mail
+            send_account_activation_email.delay_on_commit(data)
+        
+            return redirect("account_activation_sent")  
     else:
         form = UserRegistrationForm()
+
     return render(request, 'accounts/register.html', {'form':form})
+
 
 def is_regular_user(user):
     if user.role == 'USER':
@@ -158,9 +160,9 @@ def profile(request):
     return render(request, 'accounts/profile.html', {"user_profile":user_profile})
 
 @login_required
-def edit_profile(request, username):
-    user = CustomUser.objects.get(username=username)
-    print(username)
+def edit_profile(request, email):
+    user = CustomUser.objects.get(email=email)
+  
     user_profile = UserProfile.objects.get(user=user)
    
     if request.method == 'POST':
